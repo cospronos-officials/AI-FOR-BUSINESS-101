@@ -96,10 +96,11 @@ em { font-style: italic; }
 
 /* ---------- Navigation ---------- */
 .nav {
-  position: fixed;
+  position: sticky;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: rgba(10,10,10,0.8);
+  width: 100%;
+  background: rgba(10,10,10,0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
@@ -480,9 +481,9 @@ em { font-style: italic; }
   font-size: 0.85rem;
   font-weight: 600;
   text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  position: relative;
+  width: 100%;
+  z-index: 1001;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
@@ -531,6 +532,81 @@ em { font-style: italic; }
 .price-discount {
   color: var(--amber);
   font-weight: 900;
+}
+
+/* Card Countdown Timer Box */
+.card-countdown-box {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(239, 68, 68, 0.12));
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  animation: timerGlowPulse 3s infinite ease-in-out;
+}
+
+@keyframes timerGlowPulse {
+  0%, 100% { border-color: rgba(245, 158, 11, 0.45); box-shadow: 0 4px 18px rgba(245, 158, 11, 0.12); }
+  50% { border-color: rgba(245, 158, 11, 0.75); box-shadow: 0 6px 24px rgba(245, 158, 11, 0.28); }
+}
+
+.card-countdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.card-countdown-header .pulse-dot.red {
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+}
+
+.card-countdown-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--amber);
+  text-transform: uppercase;
+}
+
+.card-ticker-units {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  color: var(--amber);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.card-unit-box {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.card-unit-num {
+  font-weight: 900;
+  font-size: 1.15rem;
+  color: #fbbf24;
+  line-height: 1;
+}
+
+.card-unit-lbl {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
 }
 
 /* Early-Bird Discount Popup Modal */
@@ -1479,42 +1555,136 @@ h2.text-center { text-align: center; }
   }
 }
 
-/* Small phones */
+/* Mobile & iPhone SE Specific Tweaks */
+@media (max-width: 480px) {
+  #countdown-banner {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+  .countdown-banner-inner {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+  .ticker-units {
+    padding: 2px 8px;
+    gap: 4px;
+  }
+  .unit-num {
+    font-size: 0.95rem;
+  }
+  .package-price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px;
+    font-size: 1.8rem;
+    word-break: break-word;
+  }
+  .price-slash {
+    font-size: 1.05rem;
+    margin-right: 4px;
+  }
+  .price-discount {
+    font-size: 1.65rem;
+  }
+  .card-countdown-box {
+    padding: 10px 10px;
+    margin: 12px 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .card-countdown-title {
+    font-size: 0.68rem;
+  }
+  .card-ticker-units {
+    gap: 3px;
+    font-size: 0.75rem;
+  }
+  .card-unit-box {
+    padding: 2px 6px;
+  }
+  .card-unit-num {
+    font-size: 0.95rem;
+  }
+  .discount-modal {
+    padding: 12px;
+  }
+  .modal-card {
+    padding: 22px 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 16px;
+    box-sizing: border-box;
+  }
+  .modal-card h3 {
+    font-size: 1.1rem;
+  }
+  .modal-card p {
+    font-size: 0.82rem;
+  }
+  .coach-guidance-box {
+    padding: 14px 12px;
+    margin: 16px 0 24px 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .coach-header-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+  }
+  .mini-coach-photo {
+    width: 36px;
+    height: 36px;
+  }
+  .prize-box {
+    padding: 14px 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+/* Small phones (iPhone SE, 320px - 400px) */
 @media (max-width: 400px) {
-  .container { padding: 0 16px; }
-  h1 { font-size: 1.7rem; }
-  h2 { font-size: 1.35rem; }
+  .container { padding: 0 14px; }
+  h1 { font-size: 1.65rem; line-height: 1.25; }
+  h2 { font-size: 1.3rem; line-height: 1.3; }
 
-  .hero { padding: 88px 0 40px; }
-  .section { padding: 52px 0; }
+  .hero { padding: 36px 0 32px; }
+  .funnel-hero { padding: 36px 0 24px; }
+  .section { padding: 44px 0; }
 
-  .btn { padding: 12px 20px; font-size: 0.9rem; }
-  .package-card { padding: 24px 18px; }
-  .package-price { font-size: 2.2rem; }
+  .btn { padding: 12px 16px; font-size: 0.88rem; width: 100%; box-sizing: border-box; }
+  .package-card { padding: 20px 14px; width: 100%; box-sizing: border-box; }
 
   .problem-card, .proof-card, .topic-card {
-    padding: 24px 18px;
+    padding: 20px 14px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .pill-badge { font-size: 0.7rem; padding: 6px 14px; }
-  .nav-inner { height: 56px; }
+  .pill-badge { font-size: 0.68rem; padding: 5px 12px; }
+  .nav-inner { height: 56px; padding: 0 12px; gap: 6px; }
   .mobile-nav { top: 56px; }
+
+  .brand { font-size: 0.92rem; gap: 6px; }
+  .brand span:last-child { font-size: 0.88rem; }
 
   .date-card { min-width: 60px; padding: 10px 12px; }
   .date-day { font-size: 1.6rem; }
 
-  .hero-visual { max-width: 280px; }
+  .hero-visual { max-width: 260px; }
 
   .skip-to-free-link {
-    font-size: 0.72rem;
-    padding: 4px 10px;
-  }
-  .coach-guidance-box {
-    padding: 16px;
-    margin: 20px auto 28px auto;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   .coach-guidance-info p {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
   }
 }
 

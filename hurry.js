@@ -44,15 +44,6 @@
     const remaining = deadline - Date.now();
     const expired = remaining <= 0;
 
-    const bannerDays = document.getElementById('b-days');
-    const bannerHours = document.getElementById('b-hours');
-    const bannerMins = document.getElementById('b-mins');
-    const bannerSecs = document.getElementById('b-secs');
-
-    const modalHours = document.getElementById('m-hours');
-    const modalMins = document.getElementById('m-mins');
-    const modalSecs = document.getElementById('m-secs');
-
     if (expired) {
       applyNormalFlow();
       return;
@@ -60,10 +51,27 @@
 
     const t = formatTime(remaining);
 
+    // Top Banner Tickers
+    const bannerDays = document.getElementById('b-days');
+    const bannerHours = document.getElementById('b-hours');
+    const bannerMins = document.getElementById('b-mins');
+    const bannerSecs = document.getElementById('b-secs');
+
     if (bannerDays) bannerDays.textContent = String(t.days).padStart(2, '0');
     if (bannerHours) bannerHours.textContent = String(t.hours).padStart(2, '0');
     if (bannerMins) bannerMins.textContent = String(t.minutes).padStart(2, '0');
     if (bannerSecs) bannerSecs.textContent = String(t.seconds).padStart(2, '0');
+
+    // Card-Level Countdown Timers across all cards/boxes
+    document.querySelectorAll('.c-days').forEach(el => el.textContent = String(t.days).padStart(2, '0'));
+    document.querySelectorAll('.c-hours').forEach(el => el.textContent = String(t.hours).padStart(2, '0'));
+    document.querySelectorAll('.c-mins').forEach(el => el.textContent = String(t.minutes).padStart(2, '0'));
+    document.querySelectorAll('.c-secs').forEach(el => el.textContent = String(t.seconds).padStart(2, '0'));
+
+    // Modal Popup Timer
+    const modalHours = document.getElementById('m-hours');
+    const modalMins = document.getElementById('m-mins');
+    const modalSecs = document.getElementById('m-secs');
 
     if (modalHours) modalHours.textContent = String(t.hours + t.days * 24).padStart(2, '0');
     if (modalMins) modalMins.textContent = String(t.minutes).padStart(2, '0');
@@ -71,9 +79,14 @@
   }
 
   function applyEarlyBirdFlow() {
-    // Show banner
+    // Show top banner
     const banner = document.getElementById('countdown-banner');
     if (banner) banner.style.display = 'block';
+
+    // Show Card Countdown Boxes across all cards
+    document.querySelectorAll('.card-countdown-box').forEach(el => {
+      el.style.display = 'flex';
+    });
 
     // Update Masterclass CTA buttons to WhatsApp
     document.querySelectorAll('.btn-masterclass-cta').forEach(btn => {
@@ -110,6 +123,11 @@
     // Hide countdown banner
     const banner = document.getElementById('countdown-banner');
     if (banner) banner.style.display = 'none';
+
+    // Hide Card Countdown Boxes
+    document.querySelectorAll('.card-countdown-box').forEach(el => {
+      el.style.display = 'none';
+    });
 
     // Hide Popup Modal if open
     const modal = document.getElementById('discount-modal');
