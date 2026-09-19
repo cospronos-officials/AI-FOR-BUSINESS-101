@@ -387,6 +387,90 @@ em { font-style: italic; }
   z-index: 3;
 }
 
+/* ---------- Coach Guidance Component ---------- */
+.coach-guidance-box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-left: 4px solid var(--cyan);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin: 28px auto 36px auto;
+  max-width: 840px;
+  box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.6);
+}
+
+.coach-header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.coach-avatar-stack {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.mini-coach-photo {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--bg-elevated);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+.mini-coach-photo:nth-child(2) {
+  margin-left: -12px;
+}
+
+.coach-guidance-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--cyan);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.coach-guidance-info p {
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.highlight-cyan {
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+/* Header Funnel Shortcut */
+.nav-funnel-shortcut {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+.skip-to-free-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  white-space: nowrap;
+  transition: all var(--transition);
+}
+.skip-to-free-link:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: rgba(245, 158, 11, 0.08);
+}
+
 .pill-badge {
   display: inline-flex;
   align-items: center;
@@ -1254,6 +1338,18 @@ h2.text-center { text-align: center; }
   .date-day { font-size: 1.6rem; }
 
   .hero-visual { max-width: 280px; }
+
+  .skip-to-free-link {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+  }
+  .coach-guidance-box {
+    padding: 16px;
+    margin: 20px auto 28px auto;
+  }
+  .coach-guidance-info p {
+    font-size: 0.85rem;
+  }
 }
 
 /* ---------- Scroll animations nth-child stagger ---------- */
