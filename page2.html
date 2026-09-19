@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="styles.css?v=1.0.5" />
 </head>
 <body>
 
@@ -194,18 +194,18 @@
 <!-- Early-Bird Discount Popup Modal -->
 <div id="discount-modal" class="discount-modal">
   <div class="modal-card">
-    <button class="modal-close" aria-label="Close popup">&times;</button>
+    <button class="modal-close" style="position:absolute; top:14px; right:14px;" aria-label="Close popup">&times;</button>
     <div class="modal-badge">🔥 EARLY BIRD EXCLUSIVE</div>
     <h3>Get The AI Masterclass For ₦25,000!</h3>
     <p>Claim your <strong>₦5,000 Early-Bird Discount</strong> before the countdown expires. You get 8 days of live hands-on mentorship, website building, & AI video creation.</p>
     <div class="modal-timer-box">
       <div class="modal-timer-title">Early-Bird Offer Expires In:</div>
-      <div class="ticker-units">
-        <div class="unit-box"><span id="m-hours" class="unit-num">00</span><span class="unit-lbl">hrs</span></div>
-        <span class="ticker-colon">:</span>
-        <div class="unit-box"><span id="m-mins" class="unit-num">00</span><span class="unit-lbl">mins</span></div>
-        <span class="ticker-colon">:</span>
-        <div class="unit-box"><span id="m-secs" class="unit-num">00</span><span class="unit-lbl">secs</span></div>
+      <div class="ticker-units" style="display:inline-flex; flex-direction:row; align-items:center; justify-content:center; gap:4px;">
+        <div class="unit-box" style="display:inline-flex; flex-direction:row; align-items:baseline; gap:2px;"><span id="m-hours" class="unit-num">00</span><span class="unit-lbl">hrs</span></div>
+        <span class="ticker-colon" style="display:inline-block; margin:0 1px;">:</span>
+        <div class="unit-box" style="display:inline-flex; flex-direction:row; align-items:baseline; gap:2px;"><span id="m-mins" class="unit-num">00</span><span class="unit-lbl">mins</span></div>
+        <span class="ticker-colon" style="display:inline-block; margin:0 1px;">:</span>
+        <div class="unit-box" style="display:inline-flex; flex-direction:row; align-items:baseline; gap:2px;"><span id="m-secs" class="unit-num">00</span><span class="unit-lbl">secs</span></div>
       </div>
     </div>
     <a href="https://wa.me/2348078931982?text=Hi%20Coaches!%20I%20am%20ready%20to%20claim%20the%20Early-Bird%20Discount%20for%20the%20AI%20Masterclass%20at%20N25,000.%20Please%20send%20payment%20details." target="_blank" rel="noreferrer" class="btn btn-primary btn-full btn-glow btn-masterclass-cta">
@@ -214,7 +214,7 @@
   </div>
 </div>
 
-<script src="hurry.js"></script>
+<script src="hurry.js?v=1.0.5"></script>
 <script>
 // Scroll animations
 const observer = new IntersectionObserver((entries) => {

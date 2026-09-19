@@ -498,10 +498,16 @@ em { font-style: italic; }
 }
 
 .ticker-units, .card-ticker-units {
+  display: flex !important;
+  display: -webkit-flex !important;
   display: inline-flex !important;
+  display: -webkit-inline-flex !important;
   flex-direction: row !important;
+  -webkit-flex-direction: row !important;
   align-items: center !important;
+  -webkit-align-items: center !important;
   justify-content: center !important;
+  -webkit-justify-content: center !important;
   flex-wrap: nowrap !important;
   gap: 4px;
   background: rgba(0, 0, 0, 0.5);
@@ -514,15 +520,19 @@ em { font-style: italic; }
 
 .unit-box, .card-unit-box {
   display: inline-flex !important;
+  display: -webkit-inline-flex !important;
   flex-direction: row !important;
+  -webkit-flex-direction: row !important;
   align-items: baseline !important;
+  -webkit-align-items: baseline !important;
   gap: 2px;
   flex-shrink: 0 !important;
+  -webkit-flex-shrink: 0 !important;
   white-space: nowrap !important;
 }
 
 .unit-num, .card-unit-num {
-  font-family: monospace;
+  font-family: var(--font-mono, monospace);
   font-weight: 800;
   font-size: 1.05rem;
   color: var(--amber);
@@ -547,8 +557,11 @@ em { font-style: italic; }
 
 .package-price {
   display: flex !important;
+  display: -webkit-flex !important;
   flex-direction: row !important;
+  -webkit-flex-direction: row !important;
   align-items: baseline !important;
+  -webkit-align-items: baseline !important;
   justify-content: flex-start !important;
   flex-wrap: nowrap !important;
   gap: 10px;
@@ -558,10 +571,11 @@ em { font-style: italic; }
 
 .price-slash {
   display: inline-block !important;
-  text-decoration: line-through;
+  text-decoration: line-through !important;
+  -webkit-text-decoration-line: line-through !important;
   opacity: 0.55;
   font-size: 1.3rem !important;
-  color: var(--text-muted);
+  color: var(--text-muted) !important;
   white-space: nowrap !important;
   flex-shrink: 0 !important;
 }
