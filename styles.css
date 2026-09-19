@@ -471,6 +471,172 @@ em { font-style: italic; }
   background: rgba(245, 158, 11, 0.08);
 }
 
+/* ---------- Early-Bird Hurry Strategy Styles ---------- */
+#countdown-banner {
+  background: linear-gradient(135deg, #1e1b4b, #31104b);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.countdown-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ticker-units {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  border-radius: 8px;
+  padding: 4px 10px;
+}
+
+.unit-box {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.unit-num {
+  font-family: monospace;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--amber);
+}
+.unit-lbl {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.price-slash {
+  text-decoration: line-through;
+  opacity: 0.6;
+  font-size: 0.75em;
+  margin-right: 8px;
+  color: var(--text-muted);
+}
+.price-discount {
+  color: var(--amber);
+  font-weight: 900;
+}
+
+/* Early-Bird Discount Popup Modal */
+.discount-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.discount-modal.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-top: 4px solid var(--amber);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 50px -10px rgba(245, 158, 11, 0.3);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.discount-modal.is-active .modal-card {
+  transform: translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--text-dim);
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text);
+}
+
+.modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.modal-card h3 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.modal-card p {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.modal-timer-box {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-bottom: 20px;
+}
+.modal-timer-title {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
 .pill-badge {
   display: inline-flex;
   align-items: center;

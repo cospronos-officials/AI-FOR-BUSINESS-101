@@ -13,6 +13,20 @@
 </head>
 <body>
 
+<!-- Early-Bird Countdown Ticker Banner -->
+<div id="countdown-banner" style="display:none;">
+  <div class="countdown-banner-inner">
+    <span>🔥 EARLY BIRD DISCOUNT ENDS IN:</span>
+    <div class="ticker-units">
+      <div class="unit-box"><span id="b-days" class="unit-num">00</span><span class="unit-lbl">d</span></div>:
+      <div class="unit-box"><span id="b-hours" class="unit-num">00</span><span class="unit-lbl">h</span></div>:
+      <div class="unit-box"><span id="b-mins" class="unit-num">00</span><span class="unit-lbl">m</span></div>:
+      <div class="unit-box"><span id="b-secs" class="unit-num">00</span><span class="unit-lbl">s</span></div>
+    </div>
+    <span>&middot; Save ₦5,000 on Masterclass (Only 50 Early-Bird Spots!)</span>
+  </div>
+</div>
+
 <!-- Ambient glow orbs -->
 <div class="glow-orb glow-orb-cyan"></div>
 <div class="glow-orb glow-orb-purple"></div>
@@ -88,8 +102,8 @@
       <article class="package-card package-paid package-featured-ring">
         <div class="package-tag tag-amber">⚡ MOST POPULAR UPGRADE</div>
         <h3>AI for Business Masterclass</h3>
-        <div class="package-price">₦30,000</div>
-        <p class="package-price-sub">≈ $21.85 USD</p>
+        <div class="package-price price-masterclass">₦30,000</div>
+        <p class="package-price-sub price-sub-masterclass">≈ $21.85 USD</p>
         <p class="package-desc">8 live sessions in October. We don't just teach — we build real websites, launch real campaigns, and optimize real client workflows together.</p>
 
         <div class="value-stack">
@@ -105,7 +119,7 @@
           </ul>
         </div>
 
-        <a href="https://selar.com/3i489f7990" target="_blank" rel="noreferrer" class="btn btn-primary btn-full btn-glow">Get The Masterclass — ₦30,000 ↗</a>
+        <a href="https://selar.com/3i489f7990" target="_blank" rel="noreferrer" class="btn btn-primary btn-full btn-glow btn-masterclass-cta">Get The Masterclass — ₦30,000 ↗</a>
       </article>
 
       <!-- Free Option (Navigates to Page 3) -->
@@ -137,7 +151,7 @@
       <p>The Masterclass seats are limited to keep live Q&A interactive and effective. If you're serious about mastering AI websites and commercial content, securing your spot now guarantees live access.</p>
     </div>
     <div class="hero-ctas">
-      <a href="https://selar.com/3i489f7990" target="_blank" rel="noreferrer" class="btn btn-primary btn-glow">Upgrade to Masterclass — ₦30,000 ↗</a>
+      <a href="https://selar.com/3i489f7990" target="_blank" rel="noreferrer" class="btn btn-primary btn-glow btn-masterclass-cta">Upgrade to Masterclass — ₦30,000 ↗</a>
       <a href="page3.html" class="btn btn-outline">Join For Free →</a>
     </div>
   </div>
@@ -157,6 +171,28 @@
   </div>
 </footer>
 
+<!-- Early-Bird Discount Popup Modal -->
+<div id="discount-modal" class="discount-modal">
+  <div class="modal-card">
+    <button class="modal-close" aria-label="Close popup">&times;</button>
+    <div class="modal-badge">🔥 EARLY BIRD EXCLUSIVE</div>
+    <h3>Get The AI Masterclass For ₦25,000!</h3>
+    <p>Claim your <strong>₦5,000 Early-Bird Discount</strong> before the countdown expires. You get 8 days of live hands-on mentorship, website building, & AI video creation.</p>
+    <div class="modal-timer-box">
+      <div class="modal-timer-title">Early-Bird Offer Expires In:</div>
+      <div class="ticker-units">
+        <div class="unit-box"><span id="m-hours" class="unit-num">00</span><span class="unit-lbl">hrs</span></div>:
+        <div class="unit-box"><span id="m-mins" class="unit-num">00</span><span class="unit-lbl">mins</span></div>:
+        <div class="unit-box"><span id="m-secs" class="unit-num">00</span><span class="unit-lbl">secs</span></div>
+      </div>
+    </div>
+    <a href="https://wa.me/2348078931982?text=Hi%20Coaches!%20I%20am%20ready%20to%20claim%20the%20Early-Bird%20Discount%20for%20the%20AI%20Masterclass%20at%20N25,000.%20Please%20send%20payment%20details." target="_blank" rel="noreferrer" class="btn btn-primary btn-full btn-glow btn-masterclass-cta">
+      Claim ₦25,000 Early-Bird Discount via WhatsApp ↗
+    </a>
+  </div>
+</div>
+
+<script src="hurry.js"></script>
 <script>
 // Scroll animations
 const observer = new IntersectionObserver((entries) => {

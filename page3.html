@@ -13,6 +13,20 @@
 </head>
 <body>
 
+<!-- Early-Bird Countdown Ticker Banner -->
+<div id="countdown-banner" style="display:none;">
+  <div class="countdown-banner-inner">
+    <span>🔥 EARLY BIRD DISCOUNT ENDS IN:</span>
+    <div class="ticker-units">
+      <div class="unit-box"><span id="b-days" class="unit-num">00</span><span class="unit-lbl">d</span></div>:
+      <div class="unit-box"><span id="b-hours" class="unit-num">00</span><span class="unit-lbl">h</span></div>:
+      <div class="unit-box"><span id="b-mins" class="unit-num">00</span><span class="unit-lbl">m</span></div>:
+      <div class="unit-box"><span id="b-secs" class="unit-num">00</span><span class="unit-lbl">s</span></div>
+    </div>
+    <span>&middot; Save ₦20,000 on 30 Days Challenge (Only 100 Early-Bird Spots!)</span>
+  </div>
+</div>
+
 <!-- Ambient glow orbs -->
 <div class="glow-orb glow-orb-cyan"></div>
 <div class="glow-orb glow-orb-purple"></div>
@@ -75,8 +89,8 @@
       <article class="package-card package-paid package-featured-ring">
         <div class="package-tag tag-purple">🏆 MAXIMUM RESULTS</div>
         <h3>AI for Business — 30 Days Challenge</h3>
-        <div class="package-price">₦70,000</div>
-        <p class="package-price-sub">≈ $50.98 USD</p>
+        <div class="package-price price-challenge">₦70,000</div>
+        <p class="package-price-sub price-sub-challenge">≈ $50.98 USD</p>
         <p class="package-desc">This is the full execution program. Daily implementation, small-group accountability, and direct client portfolio building.</p>
 
         <div class="value-stack">
@@ -103,7 +117,7 @@
           <small>Awarded to the challenge winner. All participants receive full training and community access.</small>
         </div>
 
-        <a href="https://selar.com/69c5s9b890" target="_blank" rel="noreferrer" class="btn btn-purple btn-full btn-glow">Get The 30 Days Challenge — ₦70,000 ↗</a>
+        <a href="https://selar.com/69c5s9b890" target="_blank" rel="noreferrer" class="btn btn-purple btn-full btn-glow btn-challenge-cta">Get The 30 Days Challenge — ₦70,000 ↗</a>
       </article>
 
       <!-- Option 2: Free Training (Navigates to Page 4) -->
@@ -138,7 +152,7 @@
     </div>
     <div class="hero-ctas">
       <a href="page4.html" class="btn btn-primary btn-glow">Claim Your Free Spot →</a>
-      <a href="https://selar.com/69c5s9b890" target="_blank" rel="noreferrer" class="btn btn-outline">30 Days Challenge — ₦70,000 ↗</a>
+      <a href="https://selar.com/69c5s9b890" target="_blank" rel="noreferrer" class="btn btn-outline btn-challenge-cta">30 Days Challenge — ₦70,000 ↗</a>
     </div>
   </div>
 </section>
@@ -157,6 +171,28 @@
   </div>
 </footer>
 
+<!-- Early-Bird Discount Popup Modal -->
+<div id="discount-modal" class="discount-modal">
+  <div class="modal-card">
+    <button class="modal-close" aria-label="Close popup">&times;</button>
+    <div class="modal-badge">🏆 EARLY BIRD EXCLUSIVE</div>
+    <h3>Get The 30 Days Challenge For ₦50,000!</h3>
+    <p>Claim your <strong>₦20,000 Early-Bird Discount</strong> before the countdown expires! Get full 30-day build challenges, small-group accountability, & entry for the ₦120k Winner's Prize!</p>
+    <div class="modal-timer-box">
+      <div class="modal-timer-title">Early-Bird Offer Expires In:</div>
+      <div class="ticker-units">
+        <div class="unit-box"><span id="m-hours" class="unit-num">00</span><span class="unit-lbl">hrs</span></div>:
+        <div class="unit-box"><span id="m-mins" class="unit-num">00</span><span class="unit-lbl">mins</span></div>:
+        <div class="unit-box"><span id="m-secs" class="unit-num">00</span><span class="unit-lbl">secs</span></div>
+      </div>
+    </div>
+    <a href="https://wa.me/2348078931982?text=Hi%20Coaches!%20I%20am%20ready%20to%20claim%20the%20Early-Bird%20Discount%20for%20the%2030%20Days%20Challenge%20at%20N50,000.%20Please%20send%20payment%20details." target="_blank" rel="noreferrer" class="btn btn-purple btn-full btn-glow btn-challenge-cta">
+      Claim ₦50,000 Early-Bird Discount via WhatsApp ↗
+    </a>
+  </div>
+</div>
+
+<script src="hurry.js"></script>
 <script>
 // Scroll animations
 const observer = new IntersectionObserver((entries) => {
