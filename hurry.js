@@ -5,9 +5,9 @@
  */
 
 (function () {
-  // Configurable Early-Bird Deadline: Sept 24, 2026 23:59:59 WAT (GMT+1)
+  // Configurable Early-Bird Deadline: 3 Days (Sept 22, 2026 23:59:59 WAT GMT+1)
   // Can be tested or overridden by setting localStorage.overrideDeadline
-  const defaultDeadline = new Date('2026-09-24T23:59:59+01:00').getTime();
+  const defaultDeadline = new Date('2026-09-22T23:59:59+01:00').getTime();
   const deadline = localStorage.getItem('overrideDeadline')
     ? parseInt(localStorage.getItem('overrideDeadline'), 10)
     : defaultDeadline;
