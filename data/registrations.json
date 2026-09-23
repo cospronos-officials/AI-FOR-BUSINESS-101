@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "REG-LIVE-202609231830",
+    "createdAt": "2026-09-23T18:30:00Z",
+    "fullName": "Live Applicant Verification",
+    "email": "verify.applicant@example.com",
+    "phone": "08099887766",
+    "whatsapp": "08099887766",
+    "occupation": "Small Business Owner",
+    "areaOfInterest": "AI Website Creation",
+    "primaryGoal": "Build websites for clients",
+    "experience": "Beginner",
+    "referralSource": "Instagram"
+  }
+]
