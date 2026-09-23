@@ -2,154 +2,228 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Admin Dashboard | AI for Business 101</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+<title>Executive Admin Dashboard | AI for Business 101</title>
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="stylesheet" href="styles.css?v=1.0.7" />
+<link rel="stylesheet" href="styles.css?v=1.0.8" />
 </head>
 <body class="admin-body">
 
-<!-- Passcode Authentication Modal (Lock Screen) -->
+<!-- Passcode Authentication Lock Screen Overlay -->
 <div id="auth-overlay" class="auth-overlay">
   <div class="auth-card">
-    <div class="auth-icon">✦</div>
-    <h2>Admin Portal Access</h2>
-    <p>Enter the passcode to view registered applicants and export records.</p>
+    <div class="auth-shield-badge">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+    </div>
+    
+    <h2>Admin Verification</h2>
+    <p class="auth-subtitle">Enter your security key to access the applicant database.</p>
     
     <form id="auth-form" onsubmit="handleAuth(event)">
-      <div class="form-group">
-        <input type="password" id="admin-passcode" placeholder="Enter Admin Passcode..." required autofocus />
-        <span id="auth-error" class="field-error" style="display:none;">Incorrect passcode. Please try again.</span>
+      <div class="form-group password-group">
+        <label for="admin-passcode" class="sr-only">Security Passcode</label>
+        <div class="password-input-wrapper">
+          <input 
+            type="password" 
+            id="admin-passcode" 
+            placeholder="Enter Admin Security Key..." 
+            required 
+            autocomplete="current-password"
+            inputmode="text"
+          />
+          <button type="button" class="toggle-pass-btn" onclick="togglePasswordVisibility()" aria-label="Toggle password view">
+            <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+        <span id="auth-error" class="auth-error-msg" style="display:none;">
+          ⚠️ Access Denied. Invalid passcode.
+        </span>
       </div>
-      <button type="submit" class="btn btn-primary btn-full btn-glow">Unlock Dashboard →</button>
+
+      <button type="submit" class="btn btn-primary btn-full btn-glow auth-submit-btn">
+        <span>Unlock Portal →</span>
+      </button>
     </form>
-    <p class="auth-hint">Default Passcode: <code>admin123</code></p>
   </div>
 </div>
 
-<!-- Main Admin Content -->
+<!-- Main Admin Application -->
 <div id="admin-app" style="display: none;">
 
-  <!-- Admin Top Navigation -->
-  <header class="nav admin-nav">
-    <div class="nav-inner">
-      <a class="brand" href="index.html">
-        <span class="brand-icon">✦</span>
-        <span>Color-Creator <em>AI</em> <small class="admin-badge-label">Admin</small></span>
-      </a>
-      <div class="admin-nav-actions">
-        <a href="registration.html" target="_blank" class="btn btn-sm btn-outline">Live Registration Form ↗</a>
-        <button onclick="lockDashboard()" class="btn btn-sm btn-danger">Lock Portal 🔒</button>
+  <!-- Executive Top Bar Header -->
+  <header class="admin-topbar">
+    <div class="container topbar-inner">
+      <div class="topbar-brand">
+        <a href="index.html" class="brand-link">
+          <span class="brand-sparkle">✦</span>
+          <span class="brand-name">Color-Creator <span class="accent-text">AI</span></span>
+        </a>
+        <span class="system-status-pill">
+          <span class="status-pulse-dot"></span> LIVE DATABASE
+        </span>
+      </div>
+
+      <div class="topbar-right">
+        <a href="registration.html" target="_blank" class="topbar-action-link">
+          <span>Registration Form ↗</span>
+        </a>
+        <button onclick="lockDashboard()" class="topbar-lock-btn">
+          <span>🔒 Lock Session</span>
+        </button>
       </div>
     </div>
   </header>
 
-  <main class="container admin-container">
-    
-    <!-- Title Row -->
-    <div class="admin-header-row">
-      <div>
-        <h1>Applicant Management <span class="gradient-text">Portal</span></h1>
-        <p class="admin-sub">View, filter, export, and contact registered attendees for AI for Business 101.</p>
-      </div>
+  <!-- Main Content Dashboard Area -->
+  <main class="admin-main-wrapper">
+    <div class="container">
       
-      <!-- Global Export Action Buttons -->
-      <div class="admin-export-btns">
-        <button onclick="exportCSV()" class="btn btn-sm btn-cyan">
-          📊 Export Excel/CSV
-        </button>
-        <button onclick="exportWord()" class="btn btn-sm btn-purple">
-          📝 Export Word (.docx)
-        </button>
-        <button onclick="exportPDF()" class="btn btn-sm btn-primary">
-          📄 Download PDF
-        </button>
+      <!-- Dashboard Header Banner -->
+      <div class="dashboard-header">
+        <div class="header-titles">
+          <h1>Registered Applicants <span class="gradient-text">Hub</span></h1>
+          <p>Real-time telemetry, database export, and direct messaging portal.</p>
+        </div>
+        
+        <!-- Global Action & Export Buttons -->
+        <div class="header-export-actions">
+          <button onclick="exportCSV()" class="export-btn export-btn-excel" title="Download Excel .CSV file">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="16" y2="17"></line></svg>
+            <span>Excel / CSV</span>
+          </button>
+
+          <button onclick="exportWord()" class="export-btn export-btn-word" title="Download Word .DOC file">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+            <span>Word Document</span>
+          </button>
+
+          <button onclick="exportPDF()" class="export-btn export-btn-pdf" title="Generate PDF Document">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span>Print PDF</span>
+          </button>
+        </div>
       </div>
+
+      <!-- KPI Summary Cards Grid -->
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-total">
+          <div class="kpi-icon-box">👥</div>
+          <div class="kpi-info">
+            <span class="kpi-title">Total Registrations</span>
+            <span class="kpi-number" id="stat-total">0</span>
+            <span class="kpi-subtext">Verified candidate passes</span>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-interest">
+          <div class="kpi-icon-box">🌐</div>
+          <div class="kpi-info">
+            <span class="kpi-title">Top Requested Skill</span>
+            <span class="kpi-number kpi-number-sm" id="stat-top-interest">AI Website Creation</span>
+            <span class="kpi-subtext">Highest interest stream</span>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-today">
+          <div class="kpi-icon-box">⚡</div>
+          <div class="kpi-info">
+            <span class="kpi-title">Today's Signups</span>
+            <span class="kpi-number" id="stat-today">0</span>
+            <span class="kpi-subtext">Recent registrations</span>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-whatsapp">
+          <div class="kpi-icon-box">💬</div>
+          <div class="kpi-info">
+            <span class="kpi-title">WhatsApp Verified</span>
+            <span class="kpi-number" id="stat-whatsapp">0</span>
+            <span class="kpi-subtext">Direct chat ready</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search & Data Control Toolbar -->
+      <div class="data-toolbar">
+        <div class="search-input-group">
+          <svg class="search-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input 
+            type="text" 
+            id="search-input" 
+            onkeyup="filterData()" 
+            placeholder="Search by name, email, phone number, or ID..." 
+          />
+        </div>
+
+        <div class="filter-controls">
+          <select id="filter-interest" onchange="filterData()" aria-label="Filter by Interest">
+            <option value="">All Areas of Interest</option>
+            <option value="AI Website Creation">AI Website Creation</option>
+            <option value="AI Product Photography">AI Product Photography</option>
+            <option value="AI Video Ads & Content">AI Video Ads & Content</option>
+            <option value="AI-as-a-Service Monetization">AI-as-a-Service</option>
+            <option value="YouTube & TikTok Automation">YouTube & TikTok</option>
+          </select>
+
+          <select id="filter-occupation" onchange="filterData()" aria-label="Filter by Role">
+            <option value="">All Roles</option>
+            <option value="Small Business Owner">Small Business Owner</option>
+            <option value="Content Creator / Freelancer">Creator / Freelancer</option>
+            <option value="Student / Graduate">Student / Graduate</option>
+            <option value="Corporate / Employee">Corporate Employee</option>
+            <option value="Agency Owner / Marketer">Agency Owner</option>
+          </select>
+
+          <button onclick="resetFilters()" class="reset-filter-btn">
+            Reset Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Applicant Data Table Card -->
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="executive-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">#</th>
+                <th>Applicant</th>
+                <th>Contact Info</th>
+                <th>Primary Interest</th>
+                <th>Role & Goal</th>
+                <th>Experience</th>
+                <th style="text-align: right;">Quick Actions</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Dynamically populated via JS -->
+            </tbody>
+          </table>
+
+          <div id="no-results" class="empty-state-box" style="display: none;">
+            <div class="empty-state-icon">🔍</div>
+            <h3>No Applicants Found</h3>
+            <p>No registration records match your current search query or filter selection.</p>
+          </div>
+        </div>
+
+        <div class="table-footer-bar">
+          <span id="record-count-text">Showing 0 registered records</span>
+          <span class="footer-secure-tag">🔒 Encrypted Applicant Vault</span>
+        </div>
+      </div>
+
     </div>
-
-    <!-- Analytics Cards -->
-    <div class="admin-stats-grid">
-      <div class="stat-card">
-        <span class="stat-label">Total Registered</span>
-        <span class="stat-value" id="stat-total">0</span>
-        <span class="stat-sub">Applicants in database</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">Top Interest</span>
-        <span class="stat-value stat-small" id="stat-top-interest">AI Website Creation</span>
-        <span class="stat-sub">Most requested skill</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">Registered Today</span>
-        <span class="stat-value" id="stat-today">0</span>
-        <span class="stat-sub">Recent activity</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">WhatsApp Verified</span>
-        <span class="stat-value" id="stat-whatsapp">0</span>
-        <span class="stat-sub">Contactable via chat</span>
-      </div>
-    </div>
-
-    <!-- Search & Filter Controls -->
-    <div class="admin-controls-card">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" onkeyup="filterData()" placeholder="Search by applicant name, email, phone, or ID..." />
-      </div>
-
-      <div class="filter-dropdowns">
-        <select id="filter-interest" onchange="filterData()">
-          <option value="">All Areas of Interest</option>
-          <option value="AI Website Creation">AI Website Creation</option>
-          <option value="AI Product Photography">AI Product Photography</option>
-          <option value="AI Video Ads & Content">AI Video Ads & Content</option>
-          <option value="AI-as-a-Service Monetization">AI-as-a-Service</option>
-          <option value="YouTube & TikTok Automation">YouTube & TikTok</option>
-        </select>
-
-        <select id="filter-occupation" onchange="filterData()">
-          <option value="">All Roles</option>
-          <option value="Small Business Owner">Small Business Owner</option>
-          <option value="Content Creator / Freelancer">Creator / Freelancer</option>
-          <option value="Student / Graduate">Student / Graduate</option>
-          <option value="Corporate / Employee">Corporate Employee</option>
-          <option value="Agency Owner / Marketer">Agency Owner</option>
-        </select>
-
-        <button onclick="resetFilters()" class="btn btn-sm btn-outline">Reset</button>
-      </div>
-    </div>
-
-    <!-- Applicant Data Table -->
-    <div class="admin-table-wrapper">
-      <table class="admin-table" id="applicants-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>ID & Date</th>
-            <th>Applicant Name</th>
-            <th>Email Address</th>
-            <th>Phone / WhatsApp</th>
-            <th>Area of Interest</th>
-            <th>Role & Goal</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="table-body">
-          <!-- Rows injected dynamically via JS -->
-        </tbody>
-      </table>
-
-      <div id="no-results" class="no-results-box" style="display: none;">
-        <p>No registered applicants match your current search/filter criteria.</p>
-      </div>
-    </div>
-
   </main>
 </div>
 
@@ -206,6 +280,16 @@ function seedDemoDataIfEmpty() {
   }
 }
 
+// Password Visibility Toggle
+function togglePasswordVisibility() {
+  const passInput = document.getElementById('admin-passcode');
+  if (passInput.type === 'password') {
+    passInput.type = 'text';
+  } else {
+    passInput.type = 'password';
+  }
+}
+
 // Authentication
 function checkAuth() {
   if (sessionStorage.getItem('adminAuth') === 'true') {
@@ -245,7 +329,7 @@ function getData() {
   }
 }
 
-// Render Dashboard stats and table
+// Render Dashboard
 let currentData = [];
 
 function renderDashboard() {
@@ -285,10 +369,22 @@ function updateStats(data) {
   document.getElementById('stat-top-interest').textContent = topInterest;
 }
 
+function getInitials(name) {
+  if (!name) return 'AP';
+  const parts = name.trim().split(' ');
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  return name.substring(0, 2).toUpperCase();
+}
+
 function renderTable(data) {
   const tbody = document.getElementById('table-body');
   const noResults = document.getElementById('no-results');
+  const countText = document.getElementById('record-count-text');
+  
   tbody.innerHTML = '';
+  countText.textContent = `Showing ${data.length} registered applicant${data.length === 1 ? '' : 's'}`;
 
   if (data.length === 0) {
     noResults.style.display = 'block';
@@ -312,33 +408,52 @@ function renderTable(data) {
     const mailBody = encodeURIComponent(`Hi ${item.fullName},\n\nYour registration for AI for Business 101 has been received.\n\nRegistration Details:\n- Name: ${item.fullName}\n- Area of Interest: ${item.areaOfInterest}\n- Role: ${item.occupation}\n\nWe look forward to seeing you live on September 25–27, 2026!\n\nBest regards,\nColor-Creator AI & Cospronos Team`);
     const mailUrl = `mailto:${item.email}?subject=${mailSubject}&body=${mailBody}`;
 
+    const initials = getInitials(item.fullName);
+
     tr.innerHTML = `
-      <td>${index + 1}</td>
+      <td class="row-num">${index + 1}</td>
       <td>
-        <strong class="reg-id-text">${item.id || 'REG-PASSED'}</strong><br />
-        <small class="text-muted">${dateFormatted}</small>
+        <div class="user-meta-cell">
+          <div class="user-avatar">${initials}</div>
+          <div>
+            <div class="user-fullname">${escapeHtml(item.fullName)}</div>
+            <div class="user-reg-id">${item.id || 'REG-PASS'} &middot; <span class="date-tag">${dateFormatted}</span></div>
+          </div>
+        </div>
       </td>
       <td>
-        <strong>${escapeHtml(item.fullName)}</strong>
+        <div class="contact-meta-cell">
+          <a href="${mailUrl}" class="email-link" title="Click to email">${escapeHtml(item.email)}</a>
+          <div class="phone-numbers">
+            <span>📞 ${escapeHtml(item.phone)}</span>
+            <span class="wa-subtag">💬 ${escapeHtml(item.whatsapp)}</span>
+          </div>
+        </div>
       </td>
       <td>
-        <a href="${mailUrl}" class="table-link">${escapeHtml(item.email)}</a>
+        <span class="interest-badge">${escapeHtml(item.areaOfInterest || 'AI Website Creation')}</span>
       </td>
       <td>
-        <div>📞 ${escapeHtml(item.phone)}</div>
-        <small class="text-cyan">💬 WA: ${escapeHtml(item.whatsapp)}</small>
+        <div class="role-meta-cell">
+          <strong>${escapeHtml(item.occupation || 'N/A')}</strong>
+          <small class="goal-subtext">Goal: ${escapeHtml(item.primaryGoal || 'N/A')}</small>
+        </div>
       </td>
       <td>
-        <span class="badge-interest">${escapeHtml(item.areaOfInterest || 'AI Website Creation')}</span>
+        <span class="exp-tag exp-${(item.experience || 'Beginner').toLowerCase()}">${escapeHtml(item.experience || 'Beginner')}</span>
       </td>
-      <td>
-        <div><strong>${escapeHtml(item.occupation || 'N/A')}</strong></div>
-        <small class="text-muted">Goal: ${escapeHtml(item.primaryGoal || 'N/A')}</small>
-      </td>
-      <td class="action-cell">
-        <a href="${waUrl}" target="_blank" title="Send WhatsApp Message" class="action-btn action-wa">💬 WA</a>
-        <a href="${mailUrl}" title="Send Email" class="action-btn action-email">✉️ Email</a>
-        <button onclick="deleteRecord('${item.id}')" title="Delete Record" class="action-btn action-del">🗑️</button>
+      <td style="text-align: right;">
+        <div class="actions-flex">
+          <a href="${waUrl}" target="_blank" class="table-action-btn action-wa-btn" title="Send WhatsApp Message">
+            💬 WhatsApp
+          </a>
+          <a href="${mailUrl}" class="table-action-btn action-mail-btn" title="Send Email">
+            ✉️ Email
+          </a>
+          <button onclick="deleteRecord('${item.id}')" class="table-action-btn action-delete-btn" title="Delete Applicant">
+            🗑️
+          </button>
+        </div>
       </td>
     `;
     tbody.appendChild(tr);
@@ -380,7 +495,7 @@ function resetFilters() {
 }
 
 function deleteRecord(id) {
-  if (!confirm('Are you sure you want to delete this registration record?')) return;
+  if (!confirm('Are you sure you want to delete this applicant registration record?')) return;
   const all = getData();
   const updated = all.filter(item => item.id !== id);
   localStorage.setItem(DB_KEY, JSON.stringify(updated));
@@ -388,7 +503,6 @@ function deleteRecord(id) {
 }
 
 // EXPORT FUNCTIONS
-// 1. Export Excel / CSV
 function exportCSV() {
   const data = getData();
   if (data.length === 0) return alert('No records available to export.');
@@ -419,7 +533,6 @@ function exportCSV() {
   document.body.removeChild(link);
 }
 
-// 2. Export Word (.docx / .doc formatted document)
 function exportWord() {
   const data = getData();
   if (data.length === 0) return alert('No records available to export.');
@@ -428,18 +541,18 @@ function exportWord() {
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
     <head><title>AI for Business 101 - Registration Report</title>
     <style>
-      body { font-family: Arial, sans-serif; font-size: 11pt; color: #333; }
-      h1 { color: #0088cc; font-size: 18pt; }
+      body { font-family: Arial, sans-serif; font-size: 11pt; color: #111; }
+      h1 { color: #0088cc; font-size: 18pt; margin-bottom: 5px; }
       table { border-collapse: collapse; width: 100%; margin-top: 15px; }
       th, td { border: 1px solid #ccc; padding: 8px; text-align: left; font-size: 10pt; }
-      th { background-color: #0088cc; color: #ffffff; }
-      tr:nth-child(even) { background-color: #f9f9f9; }
+      th { background-color: #0f172a; color: #ffffff; }
+      tr:nth-child(even) { background-color: #f8fafc; }
     </style>
     </head>
     <body>
-      <h1>AI for Business 101 — Registration Report</h1>
-      <p>Report Date: ${new Date().toLocaleString()}</p>
-      <p>Total Registered Applicants: ${data.length}</p>
+      <h1>AI for Business 101 — Applicant Database Report</h1>
+      <p><strong>Generated On:</strong> ${new Date().toLocaleString()}</p>
+      <p><strong>Total Applicants:</strong> ${data.length}</p>
       <table>
         <thead>
           <tr>
@@ -490,7 +603,6 @@ function exportWord() {
   document.body.removeChild(a);
 }
 
-// 3. Download PDF (Print formatted view)
 function exportPDF() {
   window.print();
 }
