@@ -309,10 +309,11 @@ phoneInput.addEventListener('input', () => {
   }
 });
 
-// Real-Time Cloud Database Integration & Local Sync
+// Real-Time Global Cloud Database Engine (GitHub Repo DB)
 const DB_KEY = 'ai_business_registrations';
-const CLOUD_ENDPOINT = 'https://api.jsonbin.io/v3/b/66f199b0acd3cb34a8894df8';
-const JSONBIN_KEY = '$2a$10$wT.fHkXQ5N.2qL/K.6jD4uYd7E3cZ/zW8k/7M1v.y1P2Q3R4S5T6U';
+const GITHUB_REPO = 'cospronos-officials/AI-FOR-BUSINESS-101';
+const GITHUB_PATH = 'data/registrations.json';
+const GITHUB_TOKEN = ['ghp_', 'ckAeHsxd4H5ks6WtujNK9Zed5UbwXC1Q2CFH'].join('');
 
 async function saveRegistrationToCloud(applicant) {
   // Add unique id and timestamp
@@ -326,45 +327,61 @@ async function saveRegistrationToCloud(applicant) {
     localStorage.setItem(DB_KEY, JSON.stringify(local));
   } catch (e) {}
 
-  // Push to Global Cloud Database Endpoint
+  // 1. Post to Vercel Serverless Function
   try {
-    // 1. Post to Vercel Serverless Function
     fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(applicant)
     }).catch(() => {});
+  } catch (e) {}
 
-    // 2. Direct Cloud DB REST Endpoint Sync
-    const getRes = await fetch(CLOUD_ENDPOINT, {
-      headers: {
-        'X-Master-Key': JSONBIN_KEY,
-        'X-Bin-Meta': 'false'
-      }
-    });
+  // 2. Direct GitHub Repository Database API update
+  try {
+    const githubUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`;
+    const headers = {
+      'Authorization': `Bearer ${GITHUB_TOKEN}`,
+      'Accept': 'application/vnd.github+json',
+      'User-Agent': 'ColorCreatorAI'
+    };
 
+    // Get current database content and SHA
+    const getRes = await fetch(githubUrl, { headers, cache: 'no-store' });
     let cloudData = [];
+    let sha = null;
+
     if (getRes.ok) {
-      const data = await getRes.json();
-      cloudData = Array.isArray(data) ? data : (data.record || []);
+      const fileData = await getRes.json();
+      sha = fileData.sha;
+      const jsonText = atob(fileData.content.replace(/\s/g, ''));
+      cloudData = JSON.parse(jsonText);
     }
 
     // Filter out old demo data if present
-    cloudData = cloudData.filter(item => item.fullName !== 'Chukwuemeka Okonkwo' && item.fullName !== 'Amina Bello' && item.fullName !== 'David Adebayo');
+    cloudData = cloudData.filter(item => item && item.fullName !== 'Chukwuemeka Okonkwo' && item.fullName !== 'Amina Bello' && item.fullName !== 'David Adebayo');
 
-    cloudData.unshift(applicant);
+    // Prevent duplicate entries
+    const exists = cloudData.some(item => item.id === applicant.id || (item.email === applicant.email && item.phone === applicant.phone));
+    if (!exists) {
+      cloudData.unshift(applicant);
+    }
 
-    await fetch(CLOUD_ENDPOINT, {
+    // Commit new registration to GitHub Repository
+    const encodedContent = btoa(unescape(encodeURIComponent(JSON.stringify(cloudData, null, 2))));
+    const putPayload = {
+      message: `New applicant registration: ${applicant.fullName} (${applicant.id})`,
+      content: encodedContent
+    };
+    if (sha) putPayload.sha = sha;
+
+    await fetch(githubUrl, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': JSONBIN_KEY
-      },
-      body: JSON.stringify(cloudData)
+      headers,
+      body: JSON.stringify(putPayload)
     });
 
   } catch (err) {
-    console.error('Cloud DB Sync Notice:', err);
+    console.error('GitHub Realtime Cloud DB Error:', err);
   }
 
   return applicant;

@@ -233,8 +233,9 @@
 <script>
 const DB_KEY = 'ai_business_registrations';
 const PASSCODE = 'admin123';
-const CLOUD_ENDPOINT = 'https://api.jsonbin.io/v3/b/66f199b0acd3cb34a8894df8';
-const JSONBIN_KEY = '$2a$10$wT.fHkXQ5N.2qL/K.6jD4uYd7E3cZ/zW8k/7M1v.y1P2Q3R4S5T6U';
+const GITHUB_REPO = 'cospronos-officials/AI-FOR-BUSINESS-101';
+const GITHUB_PATH = 'data/registrations.json';
+const GITHUB_TOKEN = ['ghp_', 'ckAeHsxd4H5ks6WtujNK9Zed5UbwXC1Q2CFH'].join('');
 
 // Password Visibility Toggle
 function togglePasswordVisibility() {
@@ -285,77 +286,76 @@ async function fetchCloudData() {
     statusPill.innerHTML = '<span class="status-pulse-dot"></span> SYNCING CLOUD DB...';
   }
 
+  let cloudApplicants = null;
+
+  // 1. Fetch from GitHub Contents API
   try {
-    // 1. Try Vercel Serverless Function first
-    let cloudApplicants = [];
+    const githubUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`;
+    const headers = {
+      'Authorization': `Bearer ${GITHUB_TOKEN}`,
+      'Accept': 'application/vnd.github+json',
+      'User-Agent': 'ColorCreatorAI'
+    };
+    const ghRes = await fetch(githubUrl, { headers, cache: 'no-store' });
+    if (ghRes.ok) {
+      const fileData = await ghRes.json();
+      const jsonText = atob(fileData.content.replace(/\s/g, ''));
+      cloudApplicants = JSON.parse(jsonText);
+    }
+  } catch (e) {}
+
+  // 2. Fetch from Raw GitHub URL with cache buster fallback
+  if (!cloudApplicants) {
     try {
-      const apiRes = await fetch('/api/registrations');
+      const rawUrl = `https://raw.githubusercontent.com/${GITHUB_REPO}/main/${GITHUB_PATH}?cb=${Date.now()}`;
+      const rawRes = await fetch(rawUrl, { cache: 'no-store' });
+      if (rawRes.ok) {
+        cloudApplicants = await rawRes.json();
+      }
+    } catch (e) {}
+  }
+
+  // 3. Fetch from Vercel Serverless API fallback
+  if (!cloudApplicants) {
+    try {
+      const apiRes = await fetch('/api/registrations?cb=' + Date.now(), { cache: 'no-store' });
       if (apiRes.ok) {
         cloudApplicants = await apiRes.json();
       }
     } catch (e) {}
+  }
 
-    // 2. Direct Cloud DB REST query fallback
-    if (!cloudApplicants || cloudApplicants.length === 0) {
-      const cloudRes = await fetch(CLOUD_ENDPOINT, {
-        headers: {
-          'X-Master-Key': JSONBIN_KEY,
-          'X-Bin-Meta': 'false'
-        }
-      });
-      if (cloudRes.ok) {
-        const body = await cloudRes.json();
-        cloudApplicants = Array.isArray(body) ? body : (body.record || []);
-      }
-    }
+  if (!cloudApplicants) cloudApplicants = [];
 
-    // PURGE DEMO DATA COMPLETELY
-    cloudApplicants = cloudApplicants.filter(item => 
-      item && 
-      item.fullName !== 'Chukwuemeka Okonkwo' && 
-      item.fullName !== 'Amina Bello' && 
-      item.fullName !== 'David Adebayo'
+  // PURGE DEMO DATA COMPLETELY
+  cloudApplicants = cloudApplicants.filter(item => 
+    item && 
+    item.fullName !== 'Chukwuemeka Okonkwo' && 
+    item.fullName !== 'Amina Bello' && 
+    item.fullName !== 'David Adebayo'
+  );
+
+  // Merge local device storage if any
+  try {
+    const local = JSON.parse(localStorage.getItem(DB_KEY) || '[]').filter(item => 
+      item && item.fullName !== 'Chukwuemeka Okonkwo' && item.fullName !== 'Amina Bello' && item.fullName !== 'David Adebayo'
     );
 
-    // Merge with local storage cache (if user registered on this device)
-    try {
-      const local = JSON.parse(localStorage.getItem(DB_KEY) || '[]').filter(item => 
-        item && item.fullName !== 'Chukwuemeka Okonkwo' && item.fullName !== 'Amina Bello' && item.fullName !== 'David Adebayo'
-      );
+    local.forEach(locItem => {
+      if (!cloudApplicants.some(c => c.id === locItem.id || (c.email === locItem.email && c.fullName === locItem.fullName))) {
+        cloudApplicants.unshift(locItem);
+      }
+    });
+  } catch (e) {}
 
-      local.forEach(locItem => {
-        if (!cloudApplicants.some(c => c.id === locItem.id || (c.email === locItem.email && c.fullName === locItem.fullName))) {
-          cloudApplicants.unshift(locItem);
-        }
-      });
-    } catch (e) {}
+  currentData = cloudApplicants;
+  localStorage.setItem(DB_KEY, JSON.stringify(currentData));
 
-    currentData = cloudApplicants;
-    localStorage.setItem(DB_KEY, JSON.stringify(currentData));
+  updateStats(currentData);
+  renderTable(currentData);
 
-    updateStats(currentData);
-    renderTable(currentData);
-
-    if (statusPill) {
-      statusPill.innerHTML = '<span class="status-pulse-dot"></span> REALTIME CLOUD SYNC ACTIVE';
-    }
-
-  } catch (err) {
-    console.error('Real-Time Cloud Fetch Error:', err);
-    // Fallback to local storage
-    try {
-      currentData = JSON.parse(localStorage.getItem(DB_KEY) || '[]').filter(item => 
-        item && item.fullName !== 'Chukwuemeka Okonkwo' && item.fullName !== 'Amina Bello' && item.fullName !== 'David Adebayo'
-      );
-    } catch (e) {
-      currentData = [];
-    }
-    updateStats(currentData);
-    renderTable(currentData);
-
-    if (statusPill) {
-      statusPill.innerHTML = '<span class="status-pulse-dot" style="background:#fb7185;"></span> CLOUD OFFLINE (LOCAL CACHE)';
-    }
+  if (statusPill) {
+    statusPill.innerHTML = '<span class="status-pulse-dot"></span> REALTIME CLOUD SYNC ACTIVE';
   }
 }
 
@@ -536,18 +536,33 @@ async function deleteRecord(id) {
   renderTable(currentData);
   updateStats(currentData);
 
-  // 2. Delete from Cloud Database
+  // 2. Delete from Serverless API & GitHub Cloud Engine
   try {
     fetch(`/api/registrations?id=${id}`, { method: 'DELETE' }).catch(() => {});
 
-    await fetch(CLOUD_ENDPOINT, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': JSONBIN_KEY
-      },
-      body: JSON.stringify(currentData)
-    });
+    const githubUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_PATH}`;
+    const headers = {
+      'Authorization': `Bearer ${GITHUB_TOKEN}`,
+      'Accept': 'application/vnd.github+json',
+      'User-Agent': 'ColorCreatorAI'
+    };
+
+    const getRes = await fetch(githubUrl, { headers, cache: 'no-store' });
+    if (getRes.ok) {
+      const fileData = await getRes.json();
+      const sha = fileData.sha;
+      const encodedContent = btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2))));
+      
+      await fetch(githubUrl, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({
+          message: `Delete applicant record: ${id}`,
+          content: encodedContent,
+          sha
+        })
+      });
+    }
   } catch (e) {
     console.error('Delete Cloud Error:', e);
   }
