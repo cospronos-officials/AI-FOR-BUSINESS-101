@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Dashboard | AI for Business 101</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="stylesheet" href="styles.css?v=1.0.7" />
+</head>
+<body class="admin-body">
+
+<!-- Passcode Authentication Modal (Lock Screen) -->
+<div id="auth-overlay" class="auth-overlay">
+  <div class="auth-card">
+    <div class="auth-icon">✦</div>
+    <h2>Admin Portal Access</h2>
+    <p>Enter the passcode to view registered applicants and export records.</p>
+    
+    <form id="auth-form" onsubmit="handleAuth(event)">
+      <div class="form-group">
+        <input type="password" id="admin-passcode" placeholder="Enter Admin Passcode..." required autofocus />
+        <span id="auth-error" class="field-error" style="display:none;">Incorrect passcode. Please try again.</span>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full btn-glow">Unlock Dashboard →</button>
+    </form>
+    <p class="auth-hint">Default Passcode: <code>admin123</code></p>
+  </div>
+</div>
+
+<!-- Main Admin Content -->
+<div id="admin-app" style="display: none;">
+
+  <!-- Admin Top Navigation -->
+  <header class="nav admin-nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-icon">✦</span>
+        <span>Color-Creator <em>AI</em> <small class="admin-badge-label">Admin</small></span>
+      </a>
+      <div class="admin-nav-actions">
+        <a href="registration.html" target="_blank" class="btn btn-sm btn-outline">Live Registration Form ↗</a>
+        <button onclick="lockDashboard()" class="btn btn-sm btn-danger">Lock Portal 🔒</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container admin-container">
+    
+    <!-- Title Row -->
+    <div class="admin-header-row">
+      <div>
+        <h1>Applicant Management <span class="gradient-text">Portal</span></h1>
+        <p class="admin-sub">View, filter, export, and contact registered attendees for AI for Business 101.</p>
+      </div>
+      
+      <!-- Global Export Action Buttons -->
+      <div class="admin-export-btns">
+        <button onclick="exportCSV()" class="btn btn-sm btn-cyan">
+          📊 Export Excel/CSV
+        </button>
+        <button onclick="exportWord()" class="btn btn-sm btn-purple">
+          📝 Export Word (.docx)
+        </button>
+        <button onclick="exportPDF()" class="btn btn-sm btn-primary">
+          📄 Download PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- Analytics Cards -->
+    <div class="admin-stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Total Registered</span>
+        <span class="stat-value" id="stat-total">0</span>
+        <span class="stat-sub">Applicants in database</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Top Interest</span>
+        <span class="stat-value stat-small" id="stat-top-interest">AI Website Creation</span>
+        <span class="stat-sub">Most requested skill</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Registered Today</span>
+        <span class="stat-value" id="stat-today">0</span>
+        <span class="stat-sub">Recent activity</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">WhatsApp Verified</span>
+        <span class="stat-value" id="stat-whatsapp">0</span>
+        <span class="stat-sub">Contactable via chat</span>
+      </div>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="admin-controls-card">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" onkeyup="filterData()" placeholder="Search by applicant name, email, phone, or ID..." />
+      </div>
+
+      <div class="filter-dropdowns">
+        <select id="filter-interest" onchange="filterData()">
+          <option value="">All Areas of Interest</option>
+          <option value="AI Website Creation">AI Website Creation</option>
+          <option value="AI Product Photography">AI Product Photography</option>
+          <option value="AI Video Ads & Content">AI Video Ads & Content</option>
+          <option value="AI-as-a-Service Monetization">AI-as-a-Service</option>
+          <option value="YouTube & TikTok Automation">YouTube & TikTok</option>
+        </select>
+
+        <select id="filter-occupation" onchange="filterData()">
+          <option value="">All Roles</option>
+          <option value="Small Business Owner">Small Business Owner</option>
+          <option value="Content Creator / Freelancer">Creator / Freelancer</option>
+          <option value="Student / Graduate">Student / Graduate</option>
+          <option value="Corporate / Employee">Corporate Employee</option>
+          <option value="Agency Owner / Marketer">Agency Owner</option>
+        </select>
+
+        <button onclick="resetFilters()" class="btn btn-sm btn-outline">Reset</button>
+      </div>
+    </div>
+
+    <!-- Applicant Data Table -->
+    <div class="admin-table-wrapper">
+      <table class="admin-table" id="applicants-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ID & Date</th>
+            <th>Applicant Name</th>
+            <th>Email Address</th>
+            <th>Phone / WhatsApp</th>
+            <th>Area of Interest</th>
+            <th>Role & Goal</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <!-- Rows injected dynamically via JS -->
+        </tbody>
+      </table>
+
+      <div id="no-results" class="no-results-box" style="display: none;">
+        <p>No registered applicants match your current search/filter criteria.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const DB_KEY = 'ai_business_registrations';
+const PASSCODE = 'admin123';
+
+// Seed demo data if database is currently empty
+function seedDemoDataIfEmpty() {
+  const existing = localStorage.getItem(DB_KEY);
+  if (!existing || JSON.parse(existing).length === 0) {
+    const sampleApplicants = [
+      {
+        id: 'REG-M591KA-481',
+        createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
+        fullName: 'Chukwuemeka Okonkwo',
+        email: 'chukwuemeka.o@gmail.com',
+        phone: '08034567891',
+        whatsapp: '08034567891',
+        occupation: 'Small Business Owner',
+        areaOfInterest: 'AI Website Creation',
+        primaryGoal: 'Build websites for clients',
+        experience: 'Beginner',
+        referralSource: 'Instagram'
+      },
+      {
+        id: 'REG-M592KB-712',
+        createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
+        fullName: 'Amina Bello',
+        email: 'amina.bello@techcorp.ng',
+        phone: '08129876543',
+        whatsapp: '08129876543',
+        occupation: 'Content Creator / Freelancer',
+        areaOfInterest: 'AI Product Photography',
+        primaryGoal: 'Start an AI agency',
+        experience: 'Intermediate',
+        referralSource: 'WhatsApp'
+      },
+      {
+        id: 'REG-M593KC-104',
+        createdAt: new Date(Date.now() - 3600000 * 14).toISOString(),
+        fullName: 'David Adebayo',
+        email: 'david.adebayo@gmail.com',
+        phone: '09087654321',
+        whatsapp: '09087654321',
+        occupation: 'Student / Graduate',
+        areaOfInterest: 'AI Video Ads & Content',
+        primaryGoal: 'Enhance content creation',
+        experience: 'Beginner',
+        referralSource: 'Referral / Friend'
+      }
+    ];
+    localStorage.setItem(DB_KEY, JSON.stringify(sampleApplicants));
+  }
+}
+
+// Authentication
+function checkAuth() {
+  if (sessionStorage.getItem('adminAuth') === 'true') {
+    document.getElementById('auth-overlay').style.display = 'none';
+    document.getElementById('admin-app').style.display = 'block';
+    renderDashboard();
+  } else {
+    document.getElementById('auth-overlay').style.display = 'flex';
+    document.getElementById('admin-app').style.display = 'none';
+  }
+}
+
+function handleAuth(e) {
+  e.preventDefault();
+  const input = document.getElementById('admin-passcode').value.trim();
+  if (input === PASSCODE || input === 'colorcreator2026') {
+    sessionStorage.setItem('adminAuth', 'true');
+    document.getElementById('auth-error').style.display = 'none';
+    checkAuth();
+  } else {
+    document.getElementById('auth-error').style.display = 'block';
+  }
+}
+
+function lockDashboard() {
+  sessionStorage.removeItem('adminAuth');
+  checkAuth();
+}
+
+// Data fetching
+function getData() {
+  try {
+    const raw = localStorage.getItem(DB_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+// Render Dashboard stats and table
+let currentData = [];
+
+function renderDashboard() {
+  seedDemoDataIfEmpty();
+  currentData = getData();
+  updateStats(currentData);
+  renderTable(currentData);
+}
+
+function updateStats(data) {
+  document.getElementById('stat-total').textContent = data.length;
+  
+  // Today's count
+  const todayStr = new Date().toISOString().split('T')[0];
+  const todayCount = data.filter(item => item.createdAt && item.createdAt.startsWith(todayStr)).length;
+  document.getElementById('stat-today').textContent = todayCount;
+
+  // WhatsApp count
+  const waCount = data.filter(item => item.whatsapp && item.whatsapp.length >= 8).length;
+  document.getElementById('stat-whatsapp').textContent = waCount;
+
+  // Top interest
+  const interestCounts = {};
+  data.forEach(item => {
+    const key = item.areaOfInterest || 'AI Website Creation';
+    interestCounts[key] = (interestCounts[key] || 0) + 1;
+  });
+
+  let topInterest = 'AI Website Creation';
+  let maxCount = 0;
+  for (const [key, count] of Object.entries(interestCounts)) {
+    if (count > maxCount) {
+      maxCount = count;
+      topInterest = key;
+    }
+  }
+  document.getElementById('stat-top-interest').textContent = topInterest;
+}
+
+function renderTable(data) {
+  const tbody = document.getElementById('table-body');
+  const noResults = document.getElementById('no-results');
+  tbody.innerHTML = '';
+
+  if (data.length === 0) {
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+
+  data.forEach((item, index) => {
+    const tr = document.createElement('tr');
+    const dateFormatted = item.createdAt ? new Date(item.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A';
+    
+    // Clean whatsapp number format
+    let cleanWa = (item.whatsapp || item.phone || '').replace(/\D/g, '');
+    if (cleanWa.startsWith('0')) cleanWa = '234' + cleanWa.substring(1);
+    if (!cleanWa.startsWith('234') && cleanWa.length === 10) cleanWa = '234' + cleanWa;
+
+    const waMsg = encodeURIComponent(`Hi ${item.fullName}! This is Coach Joshua & Chukwudi from AI for Business 101. Your early access registration pass (${item.id}) is confirmed! Are you ready for Sept 25-27 live training?`);
+    const waUrl = `https://wa.me/${cleanWa}?text=${waMsg}`;
+
+    const mailSubject = encodeURIComponent(`AI for Business 101 - Early Access Pass Confirmation (${item.fullName})`);
+    const mailBody = encodeURIComponent(`Hi ${item.fullName},\n\nYour registration for AI for Business 101 has been received.\n\nRegistration Details:\n- Name: ${item.fullName}\n- Area of Interest: ${item.areaOfInterest}\n- Role: ${item.occupation}\n\nWe look forward to seeing you live on September 25–27, 2026!\n\nBest regards,\nColor-Creator AI & Cospronos Team`);
+    const mailUrl = `mailto:${item.email}?subject=${mailSubject}&body=${mailBody}`;
+
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>
+        <strong class="reg-id-text">${item.id || 'REG-PASSED'}</strong><br />
+        <small class="text-muted">${dateFormatted}</small>
+      </td>
+      <td>
+        <strong>${escapeHtml(item.fullName)}</strong>
+      </td>
+      <td>
+        <a href="${mailUrl}" class="table-link">${escapeHtml(item.email)}</a>
+      </td>
+      <td>
+        <div>📞 ${escapeHtml(item.phone)}</div>
+        <small class="text-cyan">💬 WA: ${escapeHtml(item.whatsapp)}</small>
+      </td>
+      <td>
+        <span class="badge-interest">${escapeHtml(item.areaOfInterest || 'AI Website Creation')}</span>
+      </td>
+      <td>
+        <div><strong>${escapeHtml(item.occupation || 'N/A')}</strong></div>
+        <small class="text-muted">Goal: ${escapeHtml(item.primaryGoal || 'N/A')}</small>
+      </td>
+      <td class="action-cell">
+        <a href="${waUrl}" target="_blank" title="Send WhatsApp Message" class="action-btn action-wa">💬 WA</a>
+        <a href="${mailUrl}" title="Send Email" class="action-btn action-email">✉️ Email</a>
+        <button onclick="deleteRecord('${item.id}')" title="Delete Record" class="action-btn action-del">🗑️</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function filterData() {
+  const query = document.getElementById('search-input').value.toLowerCase().trim();
+  const interest = document.getElementById('filter-interest').value;
+  const occupation = document.getElementById('filter-occupation').value;
+
+  const all = getData();
+  const filtered = all.filter(item => {
+    const matchesQuery = !query || 
+      (item.fullName && item.fullName.toLowerCase().includes(query)) ||
+      (item.email && item.email.toLowerCase().includes(query)) ||
+      (item.phone && item.phone.includes(query)) ||
+      (item.id && item.id.toLowerCase().includes(query));
+
+    const matchesInterest = !interest || item.areaOfInterest === interest;
+    const matchesOccupation = !occupation || item.occupation === occupation;
+
+    return matchesQuery && matchesInterest && matchesOccupation;
+  });
+
+  renderTable(filtered);
+}
+
+function resetFilters() {
+  document.getElementById('search-input').value = '';
+  document.getElementById('filter-interest').value = '';
+  document.getElementById('filter-occupation').value = '';
+  renderTable(getData());
+}
+
+function deleteRecord(id) {
+  if (!confirm('Are you sure you want to delete this registration record?')) return;
+  const all = getData();
+  const updated = all.filter(item => item.id !== id);
+  localStorage.setItem(DB_KEY, JSON.stringify(updated));
+  renderDashboard();
+}
+
+// EXPORT FUNCTIONS
+// 1. Export Excel / CSV
+function exportCSV() {
+  const data = getData();
+  if (data.length === 0) return alert('No records available to export.');
+
+  const headers = ['ID', 'Date Registered', 'Full Name', 'Email', 'Phone', 'WhatsApp', 'Occupation', 'Area of Interest', 'Primary Goal', 'Experience', 'Referral Source'];
+  
+  const rows = data.map(item => [
+    `"${item.id || ''}"`,
+    `"${item.createdAt ? new Date(item.createdAt).toLocaleString() : ''}"`,
+    `"${(item.fullName || '').replace(/"/g, '""')}"`,
+    `"${(item.email || '').replace(/"/g, '""')}"`,
+    `"${(item.phone || '').replace(/"/g, '""')}"`,
+    `"${(item.whatsapp || '').replace(/"/g, '""')}"`,
+    `"${(item.occupation || '').replace(/"/g, '""')}"`,
+    `"${(item.areaOfInterest || '').replace(/"/g, '""')}"`,
+    `"${(item.primaryGoal || '').replace(/"/g, '""')}"`,
+    `"${(item.experience || '').replace(/"/g, '""')}"`,
+    `"${(item.referralSource || '').replace(/"/g, '""')}"`
+  ]);
+
+  const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement('a');
+  link.setAttribute('href', encodedUri);
+  link.setAttribute('download', `AI_For_Business_Registrations_${new Date().toISOString().split('T')[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// 2. Export Word (.docx / .doc formatted document)
+function exportWord() {
+  const data = getData();
+  if (data.length === 0) return alert('No records available to export.');
+
+  let docHtml = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+    <head><title>AI for Business 101 - Registration Report</title>
+    <style>
+      body { font-family: Arial, sans-serif; font-size: 11pt; color: #333; }
+      h1 { color: #0088cc; font-size: 18pt; }
+      table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+      th, td { border: 1px solid #ccc; padding: 8px; text-align: left; font-size: 10pt; }
+      th { background-color: #0088cc; color: #ffffff; }
+      tr:nth-child(even) { background-color: #f9f9f9; }
+    </style>
+    </head>
+    <body>
+      <h1>AI for Business 101 — Registration Report</h1>
+      <p>Report Date: ${new Date().toLocaleString()}</p>
+      <p>Total Registered Applicants: ${data.length}</p>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>WhatsApp</th>
+            <th>Occupation</th>
+            <th>Area of Interest</th>
+            <th>Primary Goal</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  data.forEach((item, index) => {
+    docHtml += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${item.id || ''}</td>
+        <td>${escapeHtml(item.fullName)}</td>
+        <td>${escapeHtml(item.email)}</td>
+        <td>${escapeHtml(item.phone)}</td>
+        <td>${escapeHtml(item.whatsapp)}</td>
+        <td>${escapeHtml(item.occupation)}</td>
+        <td>${escapeHtml(item.areaOfInterest)}</td>
+        <td>${escapeHtml(item.primaryGoal)}</td>
+      </tr>
+    `;
+  });
+
+  docHtml += `
+        </tbody>
+      </table>
+    </body>
+    </html>
+  `;
+
+  const blob = new Blob(['\ufeff', docHtml], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `AI_For_Business_Applicants_${new Date().toISOString().split('T')[0]}.doc`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// 3. Download PDF (Print formatted view)
+function exportPDF() {
+  window.print();
+}
+
+document.addEventListener('DOMContentLoaded', checkAuth);
+</script>
+
+</body>
+</html>

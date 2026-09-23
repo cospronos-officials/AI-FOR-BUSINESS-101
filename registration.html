@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Register for Early Access | AI for Business 101</title>
+<meta name="description" content="Register now for AI for Business 101 free live training (Sept 25–27, 2026). Master AI websites, product photography, & video ads." />
+<meta property="og:title" content="Register for Early Access | AI for Business 101" />
+<meta property="og:description" content="Claim your spot for 3 days of live practical AI training." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="stylesheet" href="styles.css?v=1.0.7" />
+</head>
+<body>
+
+<!-- Ambient glow orbs -->
+<div class="glow-orb glow-orb-cyan"></div>
+<div class="glow-orb glow-orb-purple"></div>
+
+<!-- Header -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html" aria-label="Color-Creator AI home">
+      <span class="brand-icon">✦</span>
+      <span>Color-Creator <em>AI</em></span>
+    </a>
+    <div class="nav-funnel-shortcut">
+      <a href="index.html" class="skip-to-free-link">← Back to Main Site</a>
+    </div>
+  </div>
+</header>
+
+<!-- Registration Hero & Form Section -->
+<section class="hero registration-hero">
+  <div class="container registration-container">
+
+    <!-- Top Badge & Header -->
+    <div class="registration-header text-center">
+      <div class="pill-badge" style="margin: 0 auto 16px;">
+        <span class="pulse-dot"></span>
+        September 25–27, 2026 &middot; Live & Free
+      </div>
+      <h1>Register Now For <span class="gradient-text">Early Access</span></h1>
+      <p class="hero-sub">Complete your details below to reserve your spot for the 3-day live AI training. Spots are strictly limited to ensure interactive live coaching.</p>
+    </div>
+
+    <div class="registration-grid">
+
+      <!-- Left Column: Visual Banner & Key Benefits -->
+      <div class="registration-visual-col">
+        <div class="reg-banner-card">
+          <img src="registration_banner.png" alt="AI for Business Registration Visual" class="reg-banner-img" width="480" height="320" loading="eager" />
+          <div class="reg-banner-badge">✦ OFFICIAL REGISTRATION</div>
+        </div>
+
+        <div class="reg-highlights">
+          <h3>What You Get When You Register:</h3>
+          <ul class="reg-benefits-list">
+            <li>
+              <span class="benefit-icon">🌐</span>
+              <div>
+                <strong>AI Website Creation Skill</strong>
+                <p>Learn to build high-converting websites in 2 hours without coding.</p>
+              </div>
+            </li>
+            <li>
+              <span class="benefit-icon">📸</span>
+              <div>
+                <strong>AI Product Photography & Ads</strong>
+                <p>Create studio visuals and scroll-stopping video commercials.</p>
+              </div>
+            </li>
+            <li>
+              <span class="benefit-icon">💼</span>
+              <div>
+                <strong>AI-as-a-Service Blueprint</strong>
+                <p>Package your AI skills into services that clients pay ₦50k–₦300k for.</p>
+              </div>
+            </li>
+            <li>
+              <span class="benefit-icon">📱</span>
+              <div>
+                <strong>Exclusive WhatsApp Group Access</strong>
+                <p>Instant access to daily links, resource toolkits, and coach support.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Registration Form -->
+      <div class="registration-form-col">
+        <div class="form-card">
+          <div class="form-header">
+            <h2>Applicant Details</h2>
+            <p>Fill out all required fields to generate your registration pass.</p>
+          </div>
+
+          <form id="registration-form" novalidate>
+            
+            <!-- Full Name -->
+            <div class="form-group">
+              <label for="fullName">Full Name <span class="req-star">*</span></label>
+              <input type="text" id="fullName" name="fullName" placeholder="e.g. Chukwudi Emmanuel" required />
+              <span class="field-error" id="err-fullName">Please enter your full name.</span>
+            </div>
+
+            <!-- Email Address -->
+            <div class="form-group">
+              <label for="email">Email Address <span class="req-star">*</span></label>
+              <input type="email" id="email" name="email" placeholder="e.g. name@example.com" required />
+              <span class="field-error" id="err-email">Please enter a valid email address.</span>
+            </div>
+
+            <!-- Phone Number & WhatsApp Sync -->
+            <div class="form-row">
+              <div class="form-group col-half">
+                <label for="phone">Phone Number <span class="req-star">*</span></label>
+                <input type="tel" id="phone" name="phone" placeholder="e.g. 08012345678" required />
+                <span class="field-error" id="err-phone">Please enter phone number.</span>
+              </div>
+
+              <div class="form-group col-half">
+                <label for="whatsapp">WhatsApp Number <span class="req-star">*</span></label>
+                <input type="tel" id="whatsapp" name="whatsapp" placeholder="e.g. 08012345678" required />
+                <span class="field-error" id="err-whatsapp">Please enter WhatsApp number.</span>
+              </div>
+            </div>
+
+            <!-- Same as phone checkbox -->
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="syncWhatsapp" />
+                <span>WhatsApp number is the same as Phone number</span>
+              </label>
+            </div>
+
+            <!-- Occupation / Business Status -->
+            <div class="form-group">
+              <label for="occupation">Occupation / Current Status <span class="req-star">*</span></label>
+              <select id="occupation" name="occupation" required>
+                <option value="" disabled selected>Select your current role...</option>
+                <option value="Small Business Owner">Small Business Owner / Entrepreneur</option>
+                <option value="Content Creator / Freelancer">Content Creator / Freelancer</option>
+                <option value="Student / Graduate">Student / Recent Graduate</option>
+                <option value="Corporate / Employee">Corporate Employee / Professional</option>
+                <option value="Agency Owner / Marketer">Agency Owner / Digital Marketer</option>
+                <option value="Other">Other</option>
+              </select>
+              <span class="field-error" id="err-occupation">Please select your current role.</span>
+            </div>
+
+            <!-- Primary Area of Interest (Website focus) -->
+            <div class="form-group">
+              <label>Primary Area of Interest <span class="req-star">*</span></label>
+              <p class="form-hint">Which topic are you most eager to learn during the training?</p>
+              
+              <div class="interest-options">
+                <label class="interest-card">
+                  <input type="radio" name="areaOfInterest" value="AI Website Creation" checked />
+                  <div class="interest-content">
+                    <span class="interest-icon">🌐</span>
+                    <div>
+                      <strong>AI Website Creation & Web Design</strong>
+                      <small>Build 2-hour websites for businesses without code</small>
+                    </div>
+                  </div>
+                </label>
+
+                <label class="interest-card">
+                  <input type="radio" name="areaOfInterest" value="AI Product Photography" />
+                  <div class="interest-content">
+                    <span class="interest-icon">📸</span>
+                    <div>
+                      <strong>AI Product Photography & Studio Assets</strong>
+                      <small>Generate commercial-grade photos without studios</small>
+                    </div>
+                  </div>
+                </label>
+
+                <label class="interest-card">
+                  <input type="radio" name="areaOfInterest" value="AI Video Ads & Content" />
+                  <div class="interest-content">
+                    <span class="interest-icon">🎬</span>
+                    <div>
+                      <strong>AI Video Commercials & Social Ads</strong>
+                      <small>Create scroll-stopping ads brands pay ₦30k+ for</small>
+                    </div>
+                  </div>
+                </label>
+
+                <label class="interest-card">
+                  <input type="radio" name="areaOfInterest" value="AI-as-a-Service Monetization" />
+                  <div class="interest-content">
+                    <span class="interest-icon">🚀</span>
+                    <div>
+                      <strong>AI-as-a-Service & Pitching Clients</strong>
+                      <small>How to pitch, price and land paying clients</small>
+                    </div>
+                  </div>
+                </label>
+
+                <label class="interest-card">
+                  <input type="radio" name="areaOfInterest" value="YouTube & TikTok Automation" />
+                  <div class="interest-content">
+                    <span class="interest-icon">📲</span>
+                    <div>
+                      <strong>YouTube & International TikTok Monetization</strong>
+                      <small>Set up monetize-ready accounts and workflows</small>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Primary Goal -->
+            <div class="form-group">
+              <label for="primaryGoal">What is your main goal for attending? <span class="req-star">*</span></label>
+              <select id="primaryGoal" name="primaryGoal" required>
+                <option value="" disabled selected>Select your main goal...</option>
+                <option value="Build websites for clients">Build websites for clients & earn side income</option>
+                <option value="Grow my own business">Use AI to grow my existing business</option>
+                <option value="Start an AI agency">Start an AI agency / freelance career</option>
+                <option value="Enhance content creation">Enhance my content creation & video production</option>
+                <option value="General AI Knowledge">Learn modern AI practical skills</option>
+              </select>
+              <span class="field-error" id="err-primaryGoal">Please select your primary goal.</span>
+            </div>
+
+            <!-- AI Experience Level -->
+            <div class="form-group">
+              <label>AI Experience Level <span class="req-star">*</span></label>
+              <div class="radio-row">
+                <label class="radio-pill">
+                  <input type="radio" name="experience" value="Beginner" checked />
+                  <span>Beginner (New to AI)</span>
+                </label>
+                <label class="radio-pill">
+                  <input type="radio" name="experience" value="Intermediate" />
+                  <span>Intermediate (Use ChatGPT/AI)</span>
+                </label>
+                <label class="radio-pill">
+                  <input type="radio" name="experience" value="Advanced" />
+                  <span>Advanced</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- How did you hear about us -->
+            <div class="form-group">
+              <label for="referralSource">How did you hear about us?</label>
+              <select id="referralSource" name="referralSource">
+                <option value="Instagram">Instagram</option>
+                <option value="WhatsApp">WhatsApp Message / Group</option>
+                <option value="Referral / Friend">Friend / Word of Mouth</option>
+                <option value="Facebook / Ad">Facebook / Online Ad</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary btn-glow btn-full submit-btn" id="submit-btn">
+              <span>Complete Registration & Join Free →</span>
+            </button>
+
+            <p class="form-footer-note">🔒 Your information is secure. Instant redirection to official WhatsApp training access after registration.</p>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>© 2026 Color-Creator AI</p>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/colorcreator_ai/" target="_blank" rel="noreferrer">Instagram</a>
+      <a href="https://wa.me/message/DXQXWAIMDA22P1" target="_blank" rel="noreferrer">WhatsApp Support</a>
+      <a href="admin.html" class="admin-link">Admin Portal ↗</a>
+    </div>
+  </div>
+  <div class="container footer-partnership">
+    <p>In partnership with <a href="https://shop.cospronos.com" target="_blank" rel="noreferrer" class="partner-link">Cospronos</a></p>
+  </div>
+</footer>
+
+<script>
+// Auto-sync WhatsApp number checkbox logic
+const phoneInput = document.getElementById('phone');
+const whatsappInput = document.getElementById('whatsapp');
+const syncCheckbox = document.getElementById('syncWhatsapp');
+
+syncCheckbox.addEventListener('change', () => {
+  if (syncCheckbox.checked) {
+    whatsappInput.value = phoneInput.value;
+  }
+});
+
+phoneInput.addEventListener('input', () => {
+  if (syncCheckbox.checked) {
+    whatsappInput.value = phoneInput.value;
+  }
+});
+
+// Database helper functions (LocalStorage persistent applicant store)
+const DB_KEY = 'ai_business_registrations';
+
+function getRegistrations() {
+  try {
+    const data = localStorage.getItem(DB_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch (e) {
+    console.error('Database read error:', e);
+    return [];
+  }
+}
+
+function saveRegistration(applicant) {
+  const current = getRegistrations();
+  // Add unique id and timestamp
+  applicant.id = 'REG-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random() * 1000);
+  applicant.createdAt = new Date().toISOString();
+  current.unshift(applicant);
+  try {
+    localStorage.setItem(DB_KEY, JSON.stringify(current));
+  } catch (e) {
+    console.error('Database write error:', e);
+  }
+  return applicant;
+}
+
+// Form validation and submission
+const form = document.getElementById('registration-form');
+const submitBtn = document.getElementById('submit-btn');
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  let isValid = true;
+
+  // Clear previous errors
+  document.querySelectorAll('.field-error').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('input, select').forEach(el => el.classList.remove('has-error'));
+
+  const fullName = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const whatsapp = document.getElementById('whatsapp').value.trim();
+  const occupation = document.getElementById('occupation').value;
+  const areaOfInterest = document.querySelector('input[name="areaOfInterest"]:checked').value;
+  const primaryGoal = document.getElementById('primaryGoal').value;
+  const experience = document.querySelector('input[name="experience"]:checked').value;
+  const referralSource = document.getElementById('referralSource').value;
+
+  if (!fullName) {
+    document.getElementById('err-fullName').style.display = 'block';
+    document.getElementById('fullName').classList.add('has-error');
+    isValid = false;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !emailRegex.test(email)) {
+    document.getElementById('err-email').style.display = 'block';
+    document.getElementById('email').classList.add('has-error');
+    isValid = false;
+  }
+
+  if (!phone || phone.length < 8) {
+    document.getElementById('err-phone').style.display = 'block';
+    document.getElementById('phone').classList.add('has-error');
+    isValid = false;
+  }
+
+  if (!whatsapp || whatsapp.length < 8) {
+    document.getElementById('err-whatsapp').style.display = 'block';
+    document.getElementById('whatsapp').classList.add('has-error');
+    isValid = false;
+  }
+
+  if (!occupation) {
+    document.getElementById('err-occupation').style.display = 'block';
+    document.getElementById('occupation').classList.add('has-error');
+    isValid = false;
+  }
+
+  if (!primaryGoal) {
+    document.getElementById('err-primaryGoal').style.display = 'block';
+    document.getElementById('primaryGoal').classList.add('has-error');
+    isValid = false;
+  }
+
+  if (!isValid) return;
+
+  // Save applicant record
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span>Registering Your Pass... ⏳</span>';
+
+  const applicantData = {
+    fullName,
+    email,
+    phone,
+    whatsapp,
+    occupation,
+    areaOfInterest,
+    primaryGoal,
+    experience,
+    referralSource
+  };
+
+  saveRegistration(applicantData);
+
+  // Store user info in session for confirmation page personalize
+  sessionStorage.setItem('applicantName', fullName);
+
+  setTimeout(() => {
+    window.location.href = 'page4.html?registered=true';
+  }, 1000);
+});
+</script>
+
+</body>
+</html>

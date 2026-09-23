@@ -51,8 +51,8 @@
       </svg>
     </div>
 
-    <h1>Congratulations! 🎉<br /><span class="gradient-text">You Made The Right Call.</span></h1>
-    <p class="hero-sub">While most people are still "thinking about it," you just took the first step toward building a real income with AI. That's not nothing — that's <strong>everything.</strong></p>
+    <h1 id="welcome-title">Congratulations! 🎉<br /><span class="gradient-text">You Made The Right Call.</span></h1>
+    <p class="hero-sub" id="welcome-sub">While most people are still "thinking about it," you just took the first step toward building a real income with AI. That's not nothing — that's <strong>everything.</strong></p>
 
     <div class="success-box">
       <h2>Here's Your Next Step</h2>
@@ -198,6 +198,15 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 document.querySelectorAll('.success-box, .reminder-box, .upgrade-nudge').forEach(el => observer.observe(el));
+
+// Dynamic applicant welcome message
+const applicantName = sessionStorage.getItem('applicantName');
+if (applicantName) {
+  const titleEl = document.getElementById('welcome-title');
+  if (titleEl) {
+    titleEl.innerHTML = `Welcome, ${applicantName}! 🎉<br /><span class="gradient-text">Your Registration Is Confirmed.</span>`;
+  }
+}
 </script>
 
 </body>
