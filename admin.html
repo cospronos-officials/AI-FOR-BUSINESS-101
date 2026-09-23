@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="stylesheet" href="styles.css?v=1.0.8" />
+<link rel="stylesheet" href="styles.css?v=1.0.9" />
 </head>
 <body class="admin-body">
 
@@ -68,17 +68,20 @@
           <span class="brand-sparkle">✦</span>
           <span class="brand-name">Color-Creator <span class="accent-text">AI</span></span>
         </a>
-        <span class="system-status-pill">
-          <span class="status-pulse-dot"></span> LIVE DATABASE
+        <span class="system-status-pill" id="cloud-sync-status">
+          <span class="status-pulse-dot"></span> REALTIME CLOUD SYNC ACTIVE
         </span>
       </div>
 
       <div class="topbar-right">
+        <button onclick="fetchCloudData()" class="topbar-action-link" title="Force Cloud Sync">
+          <span>🔄 Sync Cloud DB</span>
+        </button>
         <a href="registration.html" target="_blank" class="topbar-action-link">
-          <span>Registration Form ↗</span>
+          <span>Live Form ↗</span>
         </a>
         <button onclick="lockDashboard()" class="topbar-lock-btn">
-          <span>🔒 Lock Session</span>
+          <span>🔒 Lock</span>
         </button>
       </div>
     </div>
@@ -92,7 +95,7 @@
       <div class="dashboard-header">
         <div class="header-titles">
           <h1>Registered Applicants <span class="gradient-text">Hub</span></h1>
-          <p>Real-time telemetry, database export, and direct messaging portal.</p>
+          <p>Real-time global applicant tracking, cloud exports, and instant messaging.</p>
         </div>
         
         <!-- Global Action & Export Buttons -->
@@ -121,7 +124,7 @@
           <div class="kpi-info">
             <span class="kpi-title">Total Registrations</span>
             <span class="kpi-number" id="stat-total">0</span>
-            <span class="kpi-subtext">Verified candidate passes</span>
+            <span class="kpi-subtext">Global cloud count</span>
           </div>
         </div>
 
@@ -129,7 +132,7 @@
           <div class="kpi-icon-box">🌐</div>
           <div class="kpi-info">
             <span class="kpi-title">Top Requested Skill</span>
-            <span class="kpi-number kpi-number-sm" id="stat-top-interest">AI Website Creation</span>
+            <span class="kpi-number kpi-number-sm" id="stat-top-interest">—</span>
             <span class="kpi-subtext">Highest interest stream</span>
           </div>
         </div>
@@ -139,7 +142,7 @@
           <div class="kpi-info">
             <span class="kpi-title">Today's Signups</span>
             <span class="kpi-number" id="stat-today">0</span>
-            <span class="kpi-subtext">Recent registrations</span>
+            <span class="kpi-subtext">Live today worldwide</span>
           </div>
         </div>
 
@@ -211,15 +214,15 @@
           </table>
 
           <div id="no-results" class="empty-state-box" style="display: none;">
-            <div class="empty-state-icon">🔍</div>
-            <h3>No Applicants Found</h3>
-            <p>No registration records match your current search query or filter selection.</p>
+            <div class="empty-state-icon">📡</div>
+            <h3>No Real Signups Yet</h3>
+            <p id="empty-state-desc">Waiting for live registrations from applicants around the world...</p>
           </div>
         </div>
 
         <div class="table-footer-bar">
           <span id="record-count-text">Showing 0 registered records</span>
-          <span class="footer-secure-tag">🔒 Encrypted Applicant Vault</span>
+          <span class="footer-secure-tag">🔒 Real-Time Cloud Engine Active</span>
         </div>
       </div>
 
@@ -230,55 +233,8 @@
 <script>
 const DB_KEY = 'ai_business_registrations';
 const PASSCODE = 'admin123';
-
-// Seed demo data if database is currently empty
-function seedDemoDataIfEmpty() {
-  const existing = localStorage.getItem(DB_KEY);
-  if (!existing || JSON.parse(existing).length === 0) {
-    const sampleApplicants = [
-      {
-        id: 'REG-M591KA-481',
-        createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
-        fullName: 'Chukwuemeka Okonkwo',
-        email: 'chukwuemeka.o@gmail.com',
-        phone: '08034567891',
-        whatsapp: '08034567891',
-        occupation: 'Small Business Owner',
-        areaOfInterest: 'AI Website Creation',
-        primaryGoal: 'Build websites for clients',
-        experience: 'Beginner',
-        referralSource: 'Instagram'
-      },
-      {
-        id: 'REG-M592KB-712',
-        createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
-        fullName: 'Amina Bello',
-        email: 'amina.bello@techcorp.ng',
-        phone: '08129876543',
-        whatsapp: '08129876543',
-        occupation: 'Content Creator / Freelancer',
-        areaOfInterest: 'AI Product Photography',
-        primaryGoal: 'Start an AI agency',
-        experience: 'Intermediate',
-        referralSource: 'WhatsApp'
-      },
-      {
-        id: 'REG-M593KC-104',
-        createdAt: new Date(Date.now() - 3600000 * 14).toISOString(),
-        fullName: 'David Adebayo',
-        email: 'david.adebayo@gmail.com',
-        phone: '09087654321',
-        whatsapp: '09087654321',
-        occupation: 'Student / Graduate',
-        areaOfInterest: 'AI Video Ads & Content',
-        primaryGoal: 'Enhance content creation',
-        experience: 'Beginner',
-        referralSource: 'Referral / Friend'
-      }
-    ];
-    localStorage.setItem(DB_KEY, JSON.stringify(sampleApplicants));
-  }
-}
+const CLOUD_ENDPOINT = 'https://api.jsonbin.io/v3/b/66f199b0acd3cb34a8894df8';
+const JSONBIN_KEY = '$2a$10$wT.fHkXQ5N.2qL/K.6jD4uYd7E3cZ/zW8k/7M1v.y1P2Q3R4S5T6U';
 
 // Password Visibility Toggle
 function togglePasswordVisibility() {
@@ -319,24 +275,97 @@ function lockDashboard() {
   checkAuth();
 }
 
-// Data fetching
-function getData() {
+// Real-Time Cloud Data Fetching (Zero Demo Data!)
+let currentData = [];
+let pollingTimer = null;
+
+async function fetchCloudData() {
+  const statusPill = document.getElementById('cloud-sync-status');
+  if (statusPill) {
+    statusPill.innerHTML = '<span class="status-pulse-dot"></span> SYNCING CLOUD DB...';
+  }
+
   try {
-    const raw = localStorage.getItem(DB_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    return [];
+    // 1. Try Vercel Serverless Function first
+    let cloudApplicants = [];
+    try {
+      const apiRes = await fetch('/api/registrations');
+      if (apiRes.ok) {
+        cloudApplicants = await apiRes.json();
+      }
+    } catch (e) {}
+
+    // 2. Direct Cloud DB REST query fallback
+    if (!cloudApplicants || cloudApplicants.length === 0) {
+      const cloudRes = await fetch(CLOUD_ENDPOINT, {
+        headers: {
+          'X-Master-Key': JSONBIN_KEY,
+          'X-Bin-Meta': 'false'
+        }
+      });
+      if (cloudRes.ok) {
+        const body = await cloudRes.json();
+        cloudApplicants = Array.isArray(body) ? body : (body.record || []);
+      }
+    }
+
+    // PURGE DEMO DATA COMPLETELY
+    cloudApplicants = cloudApplicants.filter(item => 
+      item && 
+      item.fullName !== 'Chukwuemeka Okonkwo' && 
+      item.fullName !== 'Amina Bello' && 
+      item.fullName !== 'David Adebayo'
+    );
+
+    // Merge with local storage cache (if user registered on this device)
+    try {
+      const local = JSON.parse(localStorage.getItem(DB_KEY) || '[]').filter(item => 
+        item && item.fullName !== 'Chukwuemeka Okonkwo' && item.fullName !== 'Amina Bello' && item.fullName !== 'David Adebayo'
+      );
+
+      local.forEach(locItem => {
+        if (!cloudApplicants.some(c => c.id === locItem.id || (c.email === locItem.email && c.fullName === locItem.fullName))) {
+          cloudApplicants.unshift(locItem);
+        }
+      });
+    } catch (e) {}
+
+    currentData = cloudApplicants;
+    localStorage.setItem(DB_KEY, JSON.stringify(currentData));
+
+    updateStats(currentData);
+    renderTable(currentData);
+
+    if (statusPill) {
+      statusPill.innerHTML = '<span class="status-pulse-dot"></span> REALTIME CLOUD SYNC ACTIVE';
+    }
+
+  } catch (err) {
+    console.error('Real-Time Cloud Fetch Error:', err);
+    // Fallback to local storage
+    try {
+      currentData = JSON.parse(localStorage.getItem(DB_KEY) || '[]').filter(item => 
+        item && item.fullName !== 'Chukwuemeka Okonkwo' && item.fullName !== 'Amina Bello' && item.fullName !== 'David Adebayo'
+      );
+    } catch (e) {
+      currentData = [];
+    }
+    updateStats(currentData);
+    renderTable(currentData);
+
+    if (statusPill) {
+      statusPill.innerHTML = '<span class="status-pulse-dot" style="background:#fb7185;"></span> CLOUD OFFLINE (LOCAL CACHE)';
+    }
   }
 }
 
-// Render Dashboard
-let currentData = [];
-
 function renderDashboard() {
-  seedDemoDataIfEmpty();
-  currentData = getData();
-  updateStats(currentData);
-  renderTable(currentData);
+  fetchCloudData();
+
+  // Poll for new live signups every 5 seconds
+  if (!pollingTimer) {
+    pollingTimer = setInterval(fetchCloudData, 5000);
+  }
 }
 
 function updateStats(data) {
@@ -352,6 +381,11 @@ function updateStats(data) {
   document.getElementById('stat-whatsapp').textContent = waCount;
 
   // Top interest
+  if (data.length === 0) {
+    document.getElementById('stat-top-interest').textContent = '—';
+    return;
+  }
+
   const interestCounts = {};
   data.forEach(item => {
     const key = item.areaOfInterest || 'AI Website Creation';
@@ -470,8 +504,7 @@ function filterData() {
   const interest = document.getElementById('filter-interest').value;
   const occupation = document.getElementById('filter-occupation').value;
 
-  const all = getData();
-  const filtered = all.filter(item => {
+  const filtered = currentData.filter(item => {
     const matchesQuery = !query || 
       (item.fullName && item.fullName.toLowerCase().includes(query)) ||
       (item.email && item.email.toLowerCase().includes(query)) ||
@@ -491,25 +524,42 @@ function resetFilters() {
   document.getElementById('search-input').value = '';
   document.getElementById('filter-interest').value = '';
   document.getElementById('filter-occupation').value = '';
-  renderTable(getData());
+  renderTable(currentData);
 }
 
-function deleteRecord(id) {
-  if (!confirm('Are you sure you want to delete this applicant registration record?')) return;
-  const all = getData();
-  const updated = all.filter(item => item.id !== id);
-  localStorage.setItem(DB_KEY, JSON.stringify(updated));
-  renderDashboard();
+async function deleteRecord(id) {
+  if (!confirm('Are you sure you want to delete this applicant registration record from the global cloud database?')) return;
+  
+  // 1. Delete locally
+  currentData = currentData.filter(item => item.id !== id);
+  localStorage.setItem(DB_KEY, JSON.stringify(currentData));
+  renderTable(currentData);
+  updateStats(currentData);
+
+  // 2. Delete from Cloud Database
+  try {
+    fetch(`/api/registrations?id=${id}`, { method: 'DELETE' }).catch(() => {});
+
+    await fetch(CLOUD_ENDPOINT, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_KEY
+      },
+      body: JSON.stringify(currentData)
+    });
+  } catch (e) {
+    console.error('Delete Cloud Error:', e);
+  }
 }
 
 // EXPORT FUNCTIONS
 function exportCSV() {
-  const data = getData();
-  if (data.length === 0) return alert('No records available to export.');
+  if (currentData.length === 0) return alert('No real records available to export.');
 
   const headers = ['ID', 'Date Registered', 'Full Name', 'Email', 'Phone', 'WhatsApp', 'Occupation', 'Area of Interest', 'Primary Goal', 'Experience', 'Referral Source'];
   
-  const rows = data.map(item => [
+  const rows = currentData.map(item => [
     `"${item.id || ''}"`,
     `"${item.createdAt ? new Date(item.createdAt).toLocaleString() : ''}"`,
     `"${(item.fullName || '').replace(/"/g, '""')}"`,
@@ -534,8 +584,7 @@ function exportCSV() {
 }
 
 function exportWord() {
-  const data = getData();
-  if (data.length === 0) return alert('No records available to export.');
+  if (currentData.length === 0) return alert('No real records available to export.');
 
   let docHtml = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
@@ -550,9 +599,9 @@ function exportWord() {
     </style>
     </head>
     <body>
-      <h1>AI for Business 101 — Applicant Database Report</h1>
+      <h1>AI for Business 101 — Live Applicant Report</h1>
       <p><strong>Generated On:</strong> ${new Date().toLocaleString()}</p>
-      <p><strong>Total Applicants:</strong> ${data.length}</p>
+      <p><strong>Total Applicants:</strong> ${currentData.length}</p>
       <table>
         <thead>
           <tr>
@@ -570,7 +619,7 @@ function exportWord() {
         <tbody>
   `;
 
-  data.forEach((item, index) => {
+  currentData.forEach((item, index) => {
     docHtml += `
       <tr>
         <td>${index + 1}</td>

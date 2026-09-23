@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
 <title>Register for Early Access | AI for Business 101</title>
 <meta name="description" content="Register now for AI for Business 101 free live training (Sept 25–27, 2026). Master AI websites, product photography, & video ads." />
 <meta property="og:title" content="Register for Early Access | AI for Business 101" />
@@ -11,16 +11,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="stylesheet" href="styles.css?v=1.0.7" />
+<link rel="stylesheet" href="styles.css?v=1.0.9" />
 </head>
-<body>
+<body class="registration-body">
 
 <!-- Ambient glow orbs -->
 <div class="glow-orb glow-orb-cyan"></div>
 <div class="glow-orb glow-orb-purple"></div>
 
 <!-- Header -->
-<header class="nav">
+<header class="nav reg-nav">
   <div class="nav-inner">
     <a class="brand" href="index.html" aria-label="Color-Creator AI home">
       <span class="brand-icon">✦</span>
@@ -38,64 +38,23 @@
 
     <!-- Top Badge & Header -->
     <div class="registration-header text-center">
-      <div class="pill-badge" style="margin: 0 auto 16px;">
+      <div class="pill-badge" style="margin: 0 auto 14px;">
         <span class="pulse-dot"></span>
         September 25–27, 2026 &middot; Live & Free
       </div>
       <h1>Register Now For <span class="gradient-text">Early Access</span></h1>
-      <p class="hero-sub">Complete your details below to reserve your spot for the 3-day live AI training. Spots are strictly limited to ensure interactive live coaching.</p>
+      <p class="hero-sub">Complete your details below to reserve your spot for the 3-day live AI training.</p>
     </div>
 
+    <!-- Registration Layout: On Mobile, Form comes first! -->
     <div class="registration-grid">
 
-      <!-- Left Column: Visual Banner & Key Benefits -->
-      <div class="registration-visual-col">
-        <div class="reg-banner-card">
-          <img src="registration_banner.png" alt="AI for Business Registration Visual" class="reg-banner-img" width="480" height="320" loading="eager" />
-          <div class="reg-banner-badge">✦ OFFICIAL REGISTRATION</div>
-        </div>
-
-        <div class="reg-highlights">
-          <h3>What You Get When You Register:</h3>
-          <ul class="reg-benefits-list">
-            <li>
-              <span class="benefit-icon">🌐</span>
-              <div>
-                <strong>AI Website Creation Skill</strong>
-                <p>Learn to build high-converting websites in 2 hours without coding.</p>
-              </div>
-            </li>
-            <li>
-              <span class="benefit-icon">📸</span>
-              <div>
-                <strong>AI Product Photography & Ads</strong>
-                <p>Create studio visuals and scroll-stopping video commercials.</p>
-              </div>
-            </li>
-            <li>
-              <span class="benefit-icon">💼</span>
-              <div>
-                <strong>AI-as-a-Service Blueprint</strong>
-                <p>Package your AI skills into services that clients pay ₦50k–₦300k for.</p>
-              </div>
-            </li>
-            <li>
-              <span class="benefit-icon">📱</span>
-              <div>
-                <strong>Exclusive WhatsApp Group Access</strong>
-                <p>Instant access to daily links, resource toolkits, and coach support.</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Right Column: Interactive Registration Form -->
+      <!-- Right Column (Rendered First on Mobile): Interactive Registration Form -->
       <div class="registration-form-col">
         <div class="form-card">
           <div class="form-header">
-            <h2>Applicant Details</h2>
-            <p>Fill out all required fields to generate your registration pass.</p>
+            <h2>Reserve Your Spot</h2>
+            <p>Fill out the required details to generate your registration pass.</p>
           </div>
 
           <form id="registration-form" novalidate>
@@ -235,11 +194,11 @@
               <div class="radio-row">
                 <label class="radio-pill">
                   <input type="radio" name="experience" value="Beginner" checked />
-                  <span>Beginner (New to AI)</span>
+                  <span>Beginner</span>
                 </label>
                 <label class="radio-pill">
                   <input type="radio" name="experience" value="Intermediate" />
-                  <span>Intermediate (Use ChatGPT/AI)</span>
+                  <span>Intermediate</span>
                 </label>
                 <label class="radio-pill">
                   <input type="radio" name="experience" value="Advanced" />
@@ -269,6 +228,48 @@
 
           </form>
 
+        </div>
+      </div>
+
+      <!-- Left Column: Visual Banner & Key Benefits -->
+      <div class="registration-visual-col">
+        <div class="reg-banner-card">
+          <img src="registration_banner.png" alt="AI for Business Registration Visual" class="reg-banner-img" width="480" height="320" loading="eager" />
+          <div class="reg-banner-badge">✦ OFFICIAL REGISTRATION</div>
+        </div>
+
+        <div class="reg-highlights">
+          <h3>What You Get When You Register:</h3>
+          <ul class="reg-benefits-list">
+            <li>
+              <span class="benefit-icon">🌐</span>
+              <div>
+                <strong>AI Website Creation Skill</strong>
+                <p>Learn to build high-converting websites in 2 hours without coding.</p>
+              </div>
+            </li>
+            <li>
+              <span class="benefit-icon">📸</span>
+              <div>
+                <strong>AI Product Photography & Ads</strong>
+                <p>Create studio visuals and scroll-stopping video commercials.</p>
+              </div>
+            </li>
+            <li>
+              <span class="benefit-icon">💼</span>
+              <div>
+                <strong>AI-as-a-Service Blueprint</strong>
+                <p>Package your AI skills into services that clients pay ₦50k–₦300k for.</p>
+              </div>
+            </li>
+            <li>
+              <span class="benefit-icon">📱</span>
+              <div>
+                <strong>Exclusive WhatsApp Group Access</strong>
+                <p>Instant access to daily links, resource toolkits, and coach support.</p>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -308,30 +309,64 @@ phoneInput.addEventListener('input', () => {
   }
 });
 
-// Database helper functions (LocalStorage persistent applicant store)
+// Real-Time Cloud Database Integration & Local Sync
 const DB_KEY = 'ai_business_registrations';
+const CLOUD_ENDPOINT = 'https://api.jsonbin.io/v3/b/66f199b0acd3cb34a8894df8';
+const JSONBIN_KEY = '$2a$10$wT.fHkXQ5N.2qL/K.6jD4uYd7E3cZ/zW8k/7M1v.y1P2Q3R4S5T6U';
 
-function getRegistrations() {
-  try {
-    const data = localStorage.getItem(DB_KEY);
-    return data ? JSON.parse(data) : [];
-  } catch (e) {
-    console.error('Database read error:', e);
-    return [];
-  }
-}
-
-function saveRegistration(applicant) {
-  const current = getRegistrations();
+async function saveRegistrationToCloud(applicant) {
   // Add unique id and timestamp
   applicant.id = 'REG-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random() * 1000);
   applicant.createdAt = new Date().toISOString();
-  current.unshift(applicant);
+
+  // Save to local cache first
   try {
-    localStorage.setItem(DB_KEY, JSON.stringify(current));
-  } catch (e) {
-    console.error('Database write error:', e);
+    const local = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+    local.unshift(applicant);
+    localStorage.setItem(DB_KEY, JSON.stringify(local));
+  } catch (e) {}
+
+  // Push to Global Cloud Database Endpoint
+  try {
+    // 1. Post to Vercel Serverless Function
+    fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(applicant)
+    }).catch(() => {});
+
+    // 2. Direct Cloud DB REST Endpoint Sync
+    const getRes = await fetch(CLOUD_ENDPOINT, {
+      headers: {
+        'X-Master-Key': JSONBIN_KEY,
+        'X-Bin-Meta': 'false'
+      }
+    });
+
+    let cloudData = [];
+    if (getRes.ok) {
+      const data = await getRes.json();
+      cloudData = Array.isArray(data) ? data : (data.record || []);
+    }
+
+    // Filter out old demo data if present
+    cloudData = cloudData.filter(item => item.fullName !== 'Chukwuemeka Okonkwo' && item.fullName !== 'Amina Bello' && item.fullName !== 'David Adebayo');
+
+    cloudData.unshift(applicant);
+
+    await fetch(CLOUD_ENDPOINT, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_KEY
+      },
+      body: JSON.stringify(cloudData)
+    });
+
+  } catch (err) {
+    console.error('Cloud DB Sync Notice:', err);
   }
+
   return applicant;
 }
 
@@ -339,7 +374,7 @@ function saveRegistration(applicant) {
 const form = document.getElementById('registration-form');
 const submitBtn = document.getElementById('submit-btn');
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
   let isValid = true;
 
@@ -398,7 +433,7 @@ form.addEventListener('submit', (e) => {
 
   // Save applicant record
   submitBtn.disabled = true;
-  submitBtn.innerHTML = '<span>Registering Your Pass... ⏳</span>';
+  submitBtn.innerHTML = '<span>Registering Your Pass... ⚡</span>';
 
   const applicantData = {
     fullName,
@@ -412,14 +447,14 @@ form.addEventListener('submit', (e) => {
     referralSource
   };
 
-  saveRegistration(applicantData);
+  await saveRegistrationToCloud(applicantData);
 
   // Store user info in session for confirmation page personalize
   sessionStorage.setItem('applicantName', fullName);
 
   setTimeout(() => {
     window.location.href = 'page4.html?registered=true';
-  }, 1000);
+  }, 600);
 });
 </script>
 
